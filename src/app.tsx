@@ -35,8 +35,8 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<LandingPage />} /> */}
           <Route path="*" element={<NotFound />} />
-          {/* <Route path="/dashboard" element={<Signin />} /> */}
-          <Route path="/" element={<DefaultLayout />}>
+          <Route path="/" element={<Signin />} />
+          <Route path="/dashboard" element={<DefaultLayout />}>
             <Route index element={<Dashboard />} />
           </Route>
           {/* <Route path="/simulator" element={<DefaultLayout />}>
