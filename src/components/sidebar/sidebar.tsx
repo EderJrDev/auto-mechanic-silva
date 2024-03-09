@@ -18,7 +18,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const sidebar = useRef<HTMLElement>(null);
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-  const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(
+  const [sidebarExpanded] = useState<boolean>(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
