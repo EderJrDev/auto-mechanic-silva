@@ -9,7 +9,7 @@ export function NotFound() {
           </div>
           <p className="text-2xl md:text-3xl text-black font-light leading-normal mb-8">
             Desculpe, não conseguimos encontrar a página que você está
-            procurando
+            procurando.
           </p>
 
           <a

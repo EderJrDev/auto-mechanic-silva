@@ -7,18 +7,10 @@ import { Login } from "./login";
 // import { useAuth } from "../../hooks/AuthContext";
 
 export function Signin() {
-  // const { isRegistered, setIsRegistered } = useAuth();
-  // const [showRegister, setShowRegister] = useState<boolean>(false);
-  // console.log("isRegistered:", isRegistered);
-  // const register = () => {
-  //   setShowRegister(true);
-  //   setIsRegistered(false);
-  // };
-
   return (
     <>
-      <div className="w-full h-screen flex items-start">
-        <div className="relative w-1/2 h-full flex flex-col">
+      <div className="w-full min-h-screen flex flex-col md:flex-row">
+        <div className="relative w-full md:w-1/2">
           <img
             src={bgImage}
             alt="image-system"
@@ -26,22 +18,25 @@ export function Signin() {
           />
         </div>
 
-        <div className="w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20 justify-between">
+        <div className="w-full md:w-1/2 bg-[#f5f5f5] flex flex-col p-8 md:p-20 justify-between">
           <h1 className="text-xl text-[#060606] font-semibold">
             Auto Mecânica Silva
           </h1>
 
-          <div className="w-full flex flex-col max-w-[550px]:">
+          <div className="w-full max-w-lg">
             <Login />
-            {/* {isRegistered ? <Login /> : <Register />} */}
           </div>
+
           <div className="w-full flex items-center justify-center">
             <p className="text-sm font-normal text-[#060606]">
               Desenvolvido por{" "}
               <span className="font-semibold underline underline-offset-2 cursor-pointer">
-                <a href="https://ederjr.vercel.app/" target="_blank">
-                  {" "}
-                  dev{" "}
+                <a
+                  href="https://ederjr.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  dev
                 </a>
               </span>
             </p>
