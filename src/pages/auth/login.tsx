@@ -1,28 +1,43 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// import { api } from "../../utils/api";
-// import { useAuth } from "@/hooks/authContext";
+import { toast } from "sonner";
+//components
 import { Input } from "@/components/ui/input";
+// hooks
+import { useAxios } from "@/hooks/useAxios";
 import { useAuth } from "@/hooks/authContext";
 
 export function Login() {
   const navigate = useNavigate();
+  const { loading, error, fetchData } = useAxios();
 
-  const onSubmit = async () => {
-    try {
-      // console.log(data);
-      // const response = await api.post("user/auth", data);
-      // console.log(response);
-      // const token = response.data.token;
-      // localStorage.setItem("token", token);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const result = await fetchData({
+      url: "user/login",
+      method: "post",
+      data: {
+        email: email,
+        password: password,
+      },
+    });
+
+    if (result) {
       navigate("/dashboard");
-    } catch (e) {
-      console.log(
-        "Dados inválidos por favor verifique suas informações e tente novamente."
-      );
     }
-  };
+  }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      setEmail("");
+      setPassword("");
+    }
+  }, [error]);
 
   const { setIsRegistered } = useAuth();
 
@@ -37,33 +52,25 @@ export function Login() {
         <div className="w-full flex flex-col mb-2">
           <Input
             autoFocus
-            placeholder="Email"
+            required
             type="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
             className="w-full text-black py-4 my-2 border-none focus:border-none border-black outline-none focus:outline-none"
           />
-
-          {/* {errors.email && (
-            <span className="text-red-500">Email Obrigatório.</span>
-          )} */}
-
           <Input
-            autoFocus
             placeholder="Senha"
+            required
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full text-black py-4 my-2 border-none focus:border-none border-black outline-none focus:outline-none"
           />
-
-          {/* <input
-            type="password"
-            {...register("password", { required: true })}
-            placeholder="Senha"
-            className="w-full text-black py-4 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
-          />
-          {errors.password && (
-            <span className="text-red-500">Senha Obrigatória.</span>
-          )} */}
         </div>
-
+        {error && (
+          <h3 className="text-sm text-red-600 font-semibold mb-2">{error} </h3>
+        )}
         <div className="w-full flex items-center justify-between">
           <div className="w-full flex items-center">
             <input type="checkbox" className="w-4 h-4 mr-2" />
@@ -76,10 +83,11 @@ export function Login() {
 
         <div className="w-full flex flex-col my-4">
           <button
+            disabled={loading}
             type="submit"
             className="w-full text-white mt-2 font-semibold bg-[#0F3DA2] border-boxdark-2 rounded-md p-4 text-center justify-center"
           >
-            Entrar
+            {loading ? <p>Carregando...</p> : <p>Entrar</p>}
           </button>
 
           <button
