@@ -1,10 +1,5 @@
-// import { useState } from "react";
-// //imports
-// import Login from "./Login";
-// import Register from "./Register";
 import bgImage from "../../assets/image-login.png";
 import { Login } from "./login";
-// import { useAuth } from "../../hooks/AuthContext";
 
 export function Signin() {
   return (

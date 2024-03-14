@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAxios } from "@/hooks/useAxios";
+import { Payment } from "../clients/columns";
 
 interface IFormInput {
   name: string;
-  phone: number;
-  cep: number;
-  tel: number;
-  rua: string;
-  bairro: string;
-  cidade: string;
-  number: string;
-  document: number;
+  plate: string;
+  color: string;
+  year: number;
+  city: string;
+  clientId: any;
 }
 
 interface ClientFormProps {
@@ -23,60 +30,102 @@ interface ClientFormProps {
   loading: boolean;
 }
 
-export const ClientForm: React.FC<ClientFormProps> = ({
+interface Client {
+  id: string;
+  name: string;
+}
+
+export const VehiclesForm: React.FC<ClientFormProps> = ({
   onSubmit,
   loading,
 }) => {
   const { register, handleSubmit } = useForm<IFormInput>();
 
+  const [clients, setClients] = useState<Client[]>([]);
+
+  const { fetchData } = useAxios();
+
+  useEffect(() => {
+    async function getData(): Promise<Payment[]> {
+      const response = await fetchData({
+        url: "client",
+        method: "get",
+      });
+
+      setClients(response?.data || []);
+      return response.data;
+    }
+
+    getData();
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="items-center text-start gap-2 w-auto">
-        <Label htmlFor="name">Nome</Label>
-        <Input
-          {...register("name")}
-          className="col-span-3"
-          type="text"
-          placeholder="Nome"
-          id="name"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="items-center text-start gap-2 w-auto">
+          <Label htmlFor="name">Responsável pelo veículo</Label>
+          <Select {...register("clientId")}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {clients &&
+                  clients.map((client) => (
+                    <SelectItem key={client.id} value={client.id}>
+                      {client.name}
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="items-center text-start gap-2 w-auto">
+          <Label htmlFor="name">Veículo / Modelo</Label>
+          <Input
+            {...register("name")}
+            className="col-span-3"
+            type="text"
+            placeholder="Veículo"
+            id="name"
+          />
+        </div>
       </div>
       <div className="items-center text-start gap-2">
-        <Label htmlFor="document">Documento</Label>
+        <Label htmlFor="document">Placa</Label>
         <Input
-          {...register("document")}
+          {...register("plate")}
           className="col-span-3"
-          placeholder="Documento"
-          id="document"
-          type="number"
-          maxLength={14}
+          placeholder="Placa"
+          id="plate"
+          type="text"
         />
       </div>
       <div className="grid grid-cols-3 gap-4">
         <div className="items-center text-start gap-2 w-auto">
-          <Label htmlFor="tel">Telefone</Label>
+          <Label htmlFor="tel">Cor</Label>
           <Input
-            {...register("tel")}
+            {...register("color")}
             className="col-span-3"
-            placeholder="Telefone"
-            type="number"
+            placeholder="Cor"
+            type="text"
             id="tel"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="cep">CEP</Label>
+          <Label htmlFor="cep">Ano</Label>
           <Input
-            {...register("cep")}
+            {...register("year")}
             type="number"
-            placeholder="CEP"
+            placeholder="Ano"
             className="col-span-3"
             id="cep"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="number">Número</Label>
+          <Label htmlFor="number">Cidade</Label>
           <Input
-            {...register("number")}
+            {...register("city")}
             className="col-span-3"
             placeholder="Número"
             type="number"
