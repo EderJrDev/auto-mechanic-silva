@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 //components
@@ -9,10 +9,13 @@ import { useAuth } from "@/hooks/authContext";
 
 export function Login() {
   const navigate = useNavigate();
-  const { loading, error, fetchData } = useAxios();
+
+  const { setIsRegistered } = useAuth();
+  const { loading, fetchData } = useAxios();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,21 +28,19 @@ export function Login() {
         password: password,
       },
     });
-
-    if (result) {
-      navigate("/dashboard");
-    }
+  
+      if(result.status === 201) {
+        setIsRegistered(true);
+        navigate("/budget");
+        setEmail("");
+        setPassword("");
+      } else {
+        toast.error('Usuário ou senha inválidos.')
+        setErrorMessage("Usuário ou senha inválidos.");
+        setEmail("");
+        setPassword("");
+      }
   }
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      setEmail("");
-      setPassword("");
-    }
-  }, [error]);
-
-  const { setIsRegistered } = useAuth();
 
   return (
     <div>
@@ -68,8 +69,8 @@ export function Login() {
             className="w-full text-black py-4 my-2 border-none focus:border-none border-black outline-none focus:outline-none"
           />
         </div>
-        {error && (
-          <h3 className="text-sm text-red-600 font-semibold mb-2">{error} </h3>
+        {errorMessage && (
+          <h3 className="text-sm text-red-600 font-semibold mb-2">{errorMessage} </h3>
         )}
         <div className="w-full flex items-center justify-between">
           <div className="w-full flex items-center">

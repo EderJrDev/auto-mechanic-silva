@@ -16,6 +16,7 @@ export function Signin() {
             alt="image-system"
             className="w-full h-full object-cover"
           />
+          but
         </div>
 
         <div className="w-full md:w-1/2 bg-[#f5f5f5] flex flex-col p-8 md:p-20 justify-between">

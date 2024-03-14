@@ -9,13 +9,11 @@ interface FetchDataOptions {
 }
 
 interface UseAxiosResponse {
-  error: string;
   loading: boolean;
-  fetchData: (options: FetchDataOptions) => Promise<any>; // Adjust return type to Promise<any>
+  fetchData: (options: FetchDataOptions) => Promise<any>;
 }
 
 export function useAxios(): UseAxiosResponse {
-  const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const axiosInstance = axios.create({
@@ -44,24 +42,13 @@ export function useAxios(): UseAxiosResponse {
       });
 
       console.log(result);
-      // setResponse(result);
       return result;
     } catch (error) {
-      console.log(error);
-      console.log(error.request.response);
-      if (
-        error.request.response.includes("Failed to login") ||
-        error.request.response.includes("User with email  not found")
-      ) {
-        setError("Usuário ou senha inválidos.");
-      }
-      if (axios.isCancel(error)) {
-        console.log("Requisição cancelada", error.message);
-      }
+      return error;
     } finally {
       setLoading(false);
     }
   };
 
-  return { error, loading, fetchData };
+  return { loading, fetchData };
 }

@@ -1,19 +1,19 @@
-// import React from "react";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-
-import { Signin } from "./pages/auth/signin";
-
-// import PageNotFound from "./layouts/PageNotFound";
 
 import { AuthProvider } from "./hooks/authContext";
 
 import { Loader } from "./components/loader/loader";
 
-import { Dashboard } from "./pages/dashboard/dashboard";
-
 import { NotFound } from "./layouts/notFound";
 import { DefaultLayout } from "./layouts/defaultLayout";
+//pages
+import { Signin } from "./pages/auth/signin";
+import { Budget } from "./pages/budget/budget";
+
+import { CLients } from "./pages/clients/clients";
+import { Services } from "./pages/services/services";
+import { Vehicles } from "./pages/vehicles/vehicles";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,21 +27,21 @@ function App() {
   ) : (
     <>
       <AuthProvider>
-        {/* <Toaster
-          position="top-right"
-          reverseOrder={false}
-          containerClassName="overflow-auto"
-        /> */}
         <Routes>
-          {/* <Route path="/" element={<LandingPage />} /> */}
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Signin />} />
-          <Route path="/dashboard" element={<DefaultLayout />}>
-            <Route index element={<Dashboard />} />
+          <Route path="/budget" element={<DefaultLayout />}>
+            <Route index element={<Budget />} />
           </Route>
-          {/* <Route path="/simulator" element={<DefaultLayout />}>
-            <Route index element={<Simulator />} />
-          </Route> */}
+          <Route path="/client" element={<DefaultLayout />}>
+            <Route index element={<CLients />} />
+          </Route>
+          <Route path="/service" element={<DefaultLayout />}>
+            <Route index element={<Services />} />
+          </Route>
+          <Route path="/vehicle" element={<DefaultLayout />}>
+            <Route index element={<Vehicles />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </>

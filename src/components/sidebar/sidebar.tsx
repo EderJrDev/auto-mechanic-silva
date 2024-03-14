@@ -107,50 +107,50 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             <ul className="mb-6 flex flex-col gap-1.5">
               <li>
                 <NavLink
-                  to="/simulator"
+                  to="/budget"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes("dashboard") &&
                     "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <SquaresFour size={32} color="#dee4ee" />
-                  Simulador
+                  Orçamento
                 </NavLink>
               </li>
 
               <li>
                 <NavLink
-                  to="/energy"
+                  to="/client"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes("energy") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <Lightbulb size={24} color="#dee4ee" />
-                  Energia
+                  Clientes
                 </NavLink>
               </li>
 
               <li>
                 <NavLink
-                  to="/water"
+                  to="/service"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes("water") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <Drop size={24} color="#dee4ee" />
-                  Água
+                  Serviços
                 </NavLink>
               </li>
 
               <li>
                 <NavLink
-                  to="/waste"
+                  to="/vehicle"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes("waste") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <Trash size={24} color="#dee4ee" />
-                  Resíduos
+                  Veículos
                 </NavLink>
               </li>
             </ul>
