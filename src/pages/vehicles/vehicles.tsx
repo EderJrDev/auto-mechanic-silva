@@ -31,15 +31,17 @@ export function Vehicles() {
   const [data, setData] = useState<Payment[]>([]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+
+    console.log(data)
     const response = await fetchData({
-      url: "vehicles",
+      url: "vehicle",
       method: "post",
-      data: { data },
+      data: data,
     });
 
     console.log(response);
 
-    setData([...data, response]);
+    // setData([...data, response]);
 
     if (response.status === 201) {
       toast.success("Serviço criado com sucesso!");

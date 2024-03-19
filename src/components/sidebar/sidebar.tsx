@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { Drop, Lightbulb, SquaresFour, Trash } from "phosphor-react";
+import { SquaresFour, Truck, User, Wrench } from "phosphor-react";
 
 // import logo from "../assets/Eco.png";
 
@@ -125,7 +125,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     pathname.includes("energy") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
-                  <Lightbulb size={24} color="#dee4ee" />
+                  <User size={24} color="#dee4ee" />
                   Clientes
                 </NavLink>
               </li>
@@ -137,7 +137,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     pathname.includes("water") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
-                  <Drop size={24} color="#dee4ee" />
+                  <Wrench  size={24} color="#dee4ee" />
                   Serviços
                 </NavLink>
               </li>
@@ -149,7 +149,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     pathname.includes("waste") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
-                  <Trash size={24} color="#dee4ee" />
+                  <Truck size={24} color="#dee4ee" />
                   Veículos
                 </NavLink>
               </li>

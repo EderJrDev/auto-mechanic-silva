@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 //components
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,7 +39,7 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
   onSubmit,
   loading,
 }) => {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, control } = useForm<IFormInput>();
 
   const [clients, setClients] = useState<Client[]>([]);
 
@@ -64,21 +64,27 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
       <div className="grid grid-cols-2 gap-4">
         <div className="items-center text-start gap-2 w-auto">
           <Label htmlFor="name">Responsável pelo veículo</Label>
-          <Select {...register("clientId")}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {clients &&
-                  clients.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
-                      {client.name}
-                    </SelectItem>
-                  ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Controller
+            control={control}
+            name="clientId"
+            render={({ field }) => (
+              <Select {...field}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {clients &&
+                      clients.map((client) => (
+                        <SelectItem key={client.id} value={client.id}> {/* Alterado o 'value' para 'client.id' */}
+                          {client.name} 
+                        </SelectItem>
+                      ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
         <div className="items-center text-start gap-2 w-auto">
           <Label htmlFor="name">Veículo / Modelo</Label>
@@ -113,56 +119,23 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="cep">Ano</Label>
+          <Label htmlFor="year">Ano</Label>
           <Input
             {...register("year")}
             type="number"
             placeholder="Ano"
             className="col-span-3"
-            id="cep"
+            id="year"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="number">Cidade</Label>
+          <Label htmlFor="numcityer">Cidade</Label>
           <Input
             {...register("city")}
             className="col-span-3"
-            placeholder="Número"
-            type="number"
-            id="number"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="rua">Rua</Label>
-          <Input
-            {...register("rua")}
-            className="col-span-3"
-            placeholder="Rua"
-            type="text"
-            id="rua"
-          />
-        </div>
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="bairro">Bairro</Label>
-          <Input
-            {...register("bairro")}
-            className="col-span-3"
-            placeholder="Bairro"
-            type="text"
-            id="bairro"
-          />
-        </div>
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="cidade">Cidade</Label>
-          <Input
-            {...register("cidade")}
-            className="col-span-3"
             placeholder="Cidade"
             type="text"
-            id="cidade"
+            id="city"
           />
         </div>
       </div>
