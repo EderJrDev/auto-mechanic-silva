@@ -31,7 +31,6 @@ export function useAxios(): UseAxiosResponse {
 
   const fetchData = async ({ url, method, data }: FetchDataOptions) => {
     setLoading(true);
-    console.log(data);
     try {
       const result = await axiosInstance({
         url,

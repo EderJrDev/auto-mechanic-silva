@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 //components
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
