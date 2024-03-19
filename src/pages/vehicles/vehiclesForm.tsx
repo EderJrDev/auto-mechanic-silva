@@ -8,7 +8,6 @@ import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -28,6 +27,7 @@ interface IFormInput {
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
+  setIsModalOpen: any;
 }
 
 interface Client {
@@ -37,9 +37,10 @@ interface Client {
 
 export const VehiclesForm: React.FC<ClientFormProps> = ({
   onSubmit,
+  setIsModalOpen,
   loading,
 }) => {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, setValue, watch } = useForm<IFormInput>();
 
   const [clients, setClients] = useState<Client[]>([]);
 
@@ -62,44 +63,40 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
-        <div className="items-center text-start gap-2 w-auto">
+        <div className="items-center text-start gap-2 pt-2">
           <Label htmlFor="name">Responsável pelo veículo</Label>
-          <Select {...register("clientId")}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione" />
+          <Select
+            onValueChange={(e) => {
+              setValue("clientId", e);
+            }}
+            value={watch("clientId")}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Responsável pelo veículo" />
             </SelectTrigger>
+
             <SelectContent>
-              <SelectGroup>
-                {clients &&
-                  clients.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
-                      {client.name}
-                    </SelectItem>
-                  ))}
-              </SelectGroup>
+              {clients &&
+                clients.map((client) => (
+                  <SelectItem key={client.id} value={client.name}>
+                    {client.name}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>
+
+        {/* </form> */}
         <div className="items-center text-start gap-2 w-auto">
           <Label htmlFor="name">Veículo / Modelo</Label>
           <Input
             {...register("name")}
-            className="col-span-3"
+            className="col-span-3 mt-2"
             type="text"
             placeholder="Veículo"
             id="name"
           />
         </div>
-      </div>
-      <div className="items-center text-start gap-2">
-        <Label htmlFor="document">Placa</Label>
-        <Input
-          {...register("plate")}
-          className="col-span-3"
-          placeholder="Placa"
-          id="plate"
-          type="text"
-        />
       </div>
       <div className="grid grid-cols-3 gap-4">
         <div className="items-center text-start gap-2 w-auto">
@@ -109,67 +106,48 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
             className="col-span-3"
             placeholder="Cor"
             type="text"
-            id="tel"
+            id="color"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="cep">Ano</Label>
+          <Label htmlFor="year">Ano</Label>
           <Input
             {...register("year")}
             type="number"
             placeholder="Ano"
             className="col-span-3"
-            id="cep"
+            id="year"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="number">Cidade</Label>
+          <Label htmlFor="document">Placa</Label>
           <Input
-            {...register("city")}
+            {...register("plate")}
             className="col-span-3"
-            placeholder="Número"
-            type="number"
-            id="number"
+            placeholder="Placa"
+            id="plate"
+            type="text"
           />
         </div>
       </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="rua">Rua</Label>
-          <Input
-            {...register("rua")}
-            className="col-span-3"
-            placeholder="Rua"
-            type="text"
-            id="rua"
-          />
-        </div>
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="bairro">Bairro</Label>
-          <Input
-            {...register("bairro")}
-            className="col-span-3"
-            placeholder="Bairro"
-            type="text"
-            id="bairro"
-          />
-        </div>
-        <div className="items-center text-start gap-2">
-          <Label htmlFor="cidade">Cidade</Label>
-          <Input
-            {...register("cidade")}
-            className="col-span-3"
-            placeholder="Cidade"
-            type="text"
-            id="cidade"
-          />
-        </div>
+      <div className="items-center text-start gap-2">
+        <Label htmlFor="number">Cidade</Label>
+        <Input
+          {...register("city")}
+          className="col-span-3"
+          placeholder="Cidade"
+          id="city"
+          type="text"
+        />
       </div>
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button type="button" variant="outline">
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            type="button"
+            variant="outline"
+          >
             Cancelar
           </Button>
         </DialogClose>
