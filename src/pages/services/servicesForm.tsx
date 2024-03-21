@@ -5,7 +5,7 @@ import { Label } from "@/components/label/label";
 import { Button, Input, ModalFooter, Textarea } from "@chakra-ui/react";
 
 interface IFormInput {
-  code: number;
+  code: string;
   description: string;
   value: number;
 }
@@ -13,7 +13,7 @@ interface IFormInput {
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
 export const ServicesForm: React.FC<ClientFormProps> = ({
@@ -33,7 +33,6 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
             className="col-span-3"
             type="text"
             placeholder="Código"
-            id="name"
           />
         </div>
         <div className="items-center text-start gap-2 w-auto">
@@ -43,7 +42,6 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
             className="col-span-3"
             placeholder="Valor"
             type="number"
-            id="tel"
           />
         </div>
       </div>
@@ -51,7 +49,6 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
         <div className="items-center text-start gap-2">
           <Label label="Descrição" />
           <Textarea
-            id="document"
             {...register("description")}
             className="col-span-3"
             placeholder="Descreva o novo serviço."

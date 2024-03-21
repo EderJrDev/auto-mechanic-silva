@@ -1,4 +1,4 @@
-interface ColumnDef<TData, TValue> {
+interface ColumnDef<TData> {
   header: string;
   accessor: keyof TData;
 }
@@ -9,10 +9,10 @@ export type Payment = {
   color: string;
   year: number;
   city: string;
-  clientId: any;
+  clientId: number;
 };
 
-export const columns: ColumnDef<Payment, any>[] = [
+export const columns: ColumnDef<Payment>[] = [
   {
     accessor: "clientId",
     header: "Cliente",

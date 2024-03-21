@@ -1,4 +1,4 @@
-interface ColumnDef<TData, TValue> {
+interface ColumnDef<TData> {
   header: string;
   accessor: keyof TData;
 }

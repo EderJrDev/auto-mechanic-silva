@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
-import { Button, Input, ModalFooter, Select } from "@chakra-ui/react";
-
 import { useAxios } from "@/hooks/useAxios";
 import { Payment } from "../clients/columns";
 import { Label } from "@/components/label/label";
+import { Button, Input, ModalFooter, Select } from "@chakra-ui/react";
 
 interface IFormInput {
   name: string;
@@ -13,13 +12,13 @@ interface IFormInput {
   color: string;
   year: number;
   city: string;
-  clientId: any;
+  clientId: number;
 }
 
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
 interface Client {
@@ -76,7 +75,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
             className="col-span-3 mt-2"
             type="text"
             placeholder="Veículo"
-            id="name"
           />
         </div>
       </div>
@@ -88,7 +86,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
             className="col-span-3"
             placeholder="Cor"
             type="text"
-            id="color"
           />
         </div>
         <div className="items-center text-start gap-2">
@@ -98,7 +95,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
             type="number"
             placeholder="Ano"
             className="col-span-3"
-            id="year"
           />
         </div>
         <div className="items-center text-start gap-2">
@@ -107,7 +103,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
             {...register("plate")}
             className="col-span-3"
             placeholder="Placa"
-            id="plate"
             type="text"
           />
         </div>
@@ -118,7 +113,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
           {...register("city")}
           className="col-span-3"
           placeholder="Cidade"
-          id="city"
           type="text"
         />
       </div>

@@ -19,7 +19,7 @@ interface IFormInput {
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
 export const ClientForm: React.FC<ClientFormProps> = ({

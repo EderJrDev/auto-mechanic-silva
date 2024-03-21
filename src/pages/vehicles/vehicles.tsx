@@ -22,11 +22,12 @@ import { VehiclesForm } from "./vehiclesForm";
 import { Button } from "@chakra-ui/react";
 
 interface IFormInput {
-  code: string;
-  description: string;
-  value: number;
-  clientId: any;
-  year: any;
+  name: string;
+  plate: string;
+  color: string;
+  year: number;
+  city: string;
+  clientId: number;
 }
 
 export function Vehicles() {
@@ -41,8 +42,8 @@ export function Vehicles() {
       return;
     }
 
-    data.year = parseInt(data.year);
-    data.clientId = parseInt(data.clientId);
+    // data.year = parseInt(data.year);
+    // data.clientId = parseInt(data.clientId);
 
     const response = await fetchData({
       url: "vehicle",
@@ -51,7 +52,7 @@ export function Vehicles() {
     });
 
     if (response.status === 201) {
-      toast.success("Serviço criado com sucesso!");
+      toast.success("Veículo adicionado com sucesso!");
       setDataTable([...dataTable, response.data]);
       onClose();
     } else {
@@ -65,6 +66,8 @@ export function Vehicles() {
         url: "vehicle",
         method: "get",
       });
+
+      console.log(response.data);
 
       setDataTable(response?.data || []);
       return response.data;
@@ -91,7 +94,7 @@ export function Vehicles() {
               <VehiclesForm
                 onSubmit={onSubmit}
                 loading={loading}
-                onclose={onClose}
+                onClose={onClose}
               />
             </ModalBody>
           </ModalContent>
