@@ -137,7 +137,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     pathname.includes("water") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
-                  <Wrench  size={24} color="#dee4ee" />
+                  <Wrench size={24} color="#dee4ee" />
                   Serviços
                 </NavLink>
               </li>

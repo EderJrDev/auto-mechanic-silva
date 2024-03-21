@@ -1,11 +1,8 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/label/label";
+import { Button, Input, ModalFooter, Textarea } from "@chakra-ui/react";
 
 interface IFormInput {
   code: number;
@@ -16,11 +13,13 @@ interface IFormInput {
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
+  onClose: any;
 }
 
 export const ServicesForm: React.FC<ClientFormProps> = ({
   onSubmit,
   loading,
+  onClose,
 }) => {
   const { register, handleSubmit } = useForm<IFormInput>();
 
@@ -28,7 +27,7 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="items-center text-start gap-2 w-auto">
-          <Label htmlFor="name">Código</Label>
+          <Label label="Código" />
           <Input
             {...register("code")}
             className="col-span-3"
@@ -38,7 +37,7 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
           />
         </div>
         <div className="items-center text-start gap-2 w-auto">
-          <Label htmlFor="tel">Valor</Label>
+          <Label label="Valor" />
           <Input
             {...register("value")}
             className="col-span-3"
@@ -50,7 +49,7 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
       </div>
       <div className="gap-4">
         <div className="items-center text-start gap-2">
-          <Label htmlFor="document">Descrição</Label>
+          <Label label="Descrição" />
           <Textarea
             id="document"
             {...register("description")}
@@ -60,16 +59,19 @@ export const ServicesForm: React.FC<ClientFormProps> = ({
         </div>
       </div>
 
-      <DialogFooter>
-        <DialogClose asChild>
-          <Button type="button" variant="outline">
-            Cancelar
-          </Button>
-        </DialogClose>
-        <Button disabled={loading} type="submit">
-          {loading ? "Carregando..." : "Salvar"}
+      <ModalFooter>
+        <Button colorScheme="gray" mr={3} onClick={onClose}>
+          Cancelar
         </Button>
-      </DialogFooter>
+        <Button
+          isLoading={loading}
+          type="submit"
+          colorScheme="whatsapp"
+          variant="solid"
+        >
+          Salvar
+        </Button>
+      </ModalFooter>
     </form>
   );
 };

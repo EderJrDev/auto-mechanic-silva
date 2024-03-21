@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+} from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
 
 import { toast } from "sonner";
@@ -33,8 +34,9 @@ interface IFormInput {
 
 export function CLients() {
   const { loading, fetchData } = useAxios();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [data, setData] = useState<Payment[]>([]);
+  const [tableData, setTableData] = useState<Payment[]>([]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
@@ -52,12 +54,10 @@ export function CLients() {
       },
     });
 
-    console.log(response);
-
-    setData([...data, response]);
-
     if (response.status === 201) {
       toast.success("Cliente criado com sucesso!");
+      setTableData([...tableData, response.data]);
+      onClose();
     } else {
       toast.error("Falha ao cadastrar cliente.");
     }
@@ -70,7 +70,7 @@ export function CLients() {
         method: "get",
       });
 
-      setData(response?.data || []);
+      setTableData(response?.data || []);
       return response.data;
     }
 
@@ -81,25 +81,28 @@ export function CLients() {
     <div className="p-6 max-w-4xl mx-auto space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Clientes</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="w-4 h-4 mr-2" /> Novo Cliente
-            </Button>
-          </DialogTrigger>
+        <Button colorScheme="blackAlpha" onClick={onOpen}>
+          {" "}
+          <PlusCircle className="w-4 h-4 mr-2" /> Novo Cliente
+        </Button>
 
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Novo Cliente</DialogTitle>
-              <DialogDescription>Cadastre um novo cliente</DialogDescription>
-            </DialogHeader>
-
-            <ClientForm onSubmit={onSubmit} loading={loading} />
-          </DialogContent>
-        </Dialog>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Novo Cliente</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <ClientForm
+                onSubmit={onSubmit}
+                loading={loading}
+                onClose={onClose}
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={tableData} />
       {/* table */}
     </div>
   );

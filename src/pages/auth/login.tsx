@@ -1,8 +1,8 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 //components
-import { Input } from "@/components/ui/input";
+import { Input } from "@chakra-ui/react";
 // hooks
 import { useAxios } from "@/hooks/useAxios";
 import { useAuth } from "@/hooks/authContext";
@@ -28,18 +28,18 @@ export function Login() {
         password: password,
       },
     });
-  
-      if(result.status === 201) {
-        setIsRegistered(true);
-        navigate("/budget");
-        setEmail("");
-        setPassword("");
-      } else {
-        toast.error('Usuário ou senha inválidos.')
-        setErrorMessage("Usuário ou senha inválidos.");
-        setEmail("");
-        setPassword("");
-      }
+
+    if (result.status === 201) {
+      setIsRegistered(true);
+      navigate("/budget");
+      setEmail("");
+      setPassword("");
+    } else {
+      toast.error("Usuário ou senha inválidos.");
+      setErrorMessage("Usuário ou senha inválidos.");
+      setEmail("");
+      setPassword("");
+    }
   }
 
   return (
@@ -70,7 +70,9 @@ export function Login() {
           />
         </div>
         {errorMessage && (
-          <h3 className="text-sm text-red-600 font-semibold mb-2">{errorMessage} </h3>
+          <h3 className="text-sm text-red-600 font-semibold mb-2">
+            {errorMessage}{" "}
+          </h3>
         )}
         <div className="w-full flex items-center justify-between">
           <div className="w-full flex items-center">

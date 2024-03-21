@@ -1,4 +1,7 @@
-import { ColumnDef } from "@tanstack/react-table";
+interface ColumnDef<TData, TValue> {
+  header: string;
+  accessor: keyof TData;
+}
 
 export type Payment = {
   name: string;
@@ -9,29 +12,29 @@ export type Payment = {
   clientId: any;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Payment, any>[] = [
   {
-    accessorKey: "clientId",
+    accessor: "clientId",
     header: "Cliente",
   },
   {
-    accessorKey: "name",
+    accessor: "name",
     header: "Veículo",
   },
   {
-    accessorKey: "plate",
+    accessor: "plate",
     header: "Placa",
   },
   {
-    accessorKey: "year",
+    accessor: "year",
     header: "Ano",
   },
   {
-    accessorKey: "color",
+    accessor: "color",
     header: "Cor",
   },
   {
-    accessorKey: "city",
+    accessor: "city",
     header: "Cidade",
   },
 ];

@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 //components
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+} from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
 
 import { toast } from "sonner";
@@ -22,27 +23,27 @@ import { ServicesForm } from "./servicesForm";
 interface IFormInput {
   code: string;
   description: string;
-  value: number;
+  value: any;
 }
 
 export function Services() {
   const { loading, fetchData } = useAxios();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [data, setData] = useState<Payment[]>([]);
+  const [dataTable, setDataTable] = useState<Payment[]>([]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    data.value = parseInt(data.value);
     const response = await fetchData({
       url: "service",
       method: "post",
-      data: { data },
+      data: data,
     });
-
-    console.log(response);
-
-    setData([...data, response]);
 
     if (response.status === 201) {
       toast.success("Serviço criado com sucesso!");
+      onClose();
+      setDataTable([...dataTable, response]);
     } else {
       toast.error("Falha ao cadastrar serviço.");
     }
@@ -55,7 +56,7 @@ export function Services() {
         method: "get",
       });
 
-      setData(response?.data || []);
+      setDataTable(response?.data || []);
       return response.data;
     }
 
@@ -66,25 +67,29 @@ export function Services() {
     <div className="p-6 max-w-4xl mx-auto space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Serviços</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="w-4 h-4 mr-2" /> Novo Serviço
-            </Button>
-          </DialogTrigger>
 
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Novo Serviço</DialogTitle>
-              <DialogDescription>Cadastre um novo serviço</DialogDescription>
-            </DialogHeader>
+        <Button colorScheme="blackAlpha" onClick={onOpen}>
+          {" "}
+          <PlusCircle className="w-4 h-4 mr-2" /> Novo Serviço
+        </Button>
 
-            <ServicesForm onSubmit={onSubmit} loading={loading} />
-          </DialogContent>
-        </Dialog>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Novo Serviço</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <ServicesForm
+                onSubmit={onSubmit}
+                loading={loading}
+                onClose={onClose}
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={dataTable} />
       {/* table */}
     </div>
   );

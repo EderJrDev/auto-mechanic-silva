@@ -1,10 +1,8 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/label/label";
+import { Button, Input, ModalFooter } from "@chakra-ui/react";
 
 interface IFormInput {
   name: string;
@@ -21,32 +19,36 @@ interface IFormInput {
 interface ClientFormProps {
   onSubmit: SubmitHandler<IFormInput>;
   loading: boolean;
+  onClose: any;
 }
 
 export const ClientForm: React.FC<ClientFormProps> = ({
   onSubmit,
   loading,
+  onClose,
 }) => {
   const { register, handleSubmit } = useForm<IFormInput>();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="items-center text-start gap-2 w-auto">
-        <Label htmlFor="name">Nome</Label>
+        <Label label="Nome" />
         <Input
           {...register("name")}
           className="col-span-3"
           type="text"
+          required
           placeholder="Nome"
           id="name"
         />
       </div>
       <div className="items-center text-start gap-2">
-        <Label htmlFor="document">Documento</Label>
+        <Label label="Documento" />
         <Input
           {...register("document")}
           className="col-span-3"
           placeholder="Documento"
+          required
           id="document"
           type="number"
           maxLength={14}
@@ -54,19 +56,21 @@ export const ClientForm: React.FC<ClientFormProps> = ({
       </div>
       <div className="grid grid-cols-3 gap-4">
         <div className="items-center text-start gap-2 w-auto">
-          <Label htmlFor="tel">Telefone</Label>
+          <Label label="Telefone" />
           <Input
             {...register("tel")}
             className="col-span-3"
+            required
             placeholder="Telefone"
             type="number"
             id="tel"
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="cep">CEP</Label>
+          <Label label="CEP" />
           <Input
             {...register("cep")}
+            required
             type="number"
             placeholder="CEP"
             className="col-span-3"
@@ -74,9 +78,10 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="number">Número</Label>
+          <Label label="Número" />
           <Input
             {...register("number")}
+            required
             className="col-span-3"
             placeholder="Número"
             type="number"
@@ -84,10 +89,9 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           />
         </div>
       </div>
-
       <div className="grid grid-cols-3 gap-4">
         <div className="items-center text-start gap-2">
-          <Label htmlFor="rua">Rua</Label>
+          <Label label="Rua" />
           <Input
             {...register("rua")}
             className="col-span-3"
@@ -97,7 +101,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="bairro">Bairro</Label>
+          <Label label="Bairro" />
           <Input
             {...register("bairro")}
             className="col-span-3"
@@ -107,9 +111,10 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           />
         </div>
         <div className="items-center text-start gap-2">
-          <Label htmlFor="cidade">Cidade</Label>
+          <Label label="Cidade" />
           <Input
             {...register("cidade")}
+            required
             className="col-span-3"
             placeholder="Cidade"
             type="text"
@@ -118,16 +123,19 @@ export const ClientForm: React.FC<ClientFormProps> = ({
         </div>
       </div>
 
-      <DialogFooter>
-        <DialogClose asChild>
-          <Button type="button" variant="outline">
-            Cancelar
-          </Button>
-        </DialogClose>
-        <Button disabled={loading} type="submit">
-          {loading ? "Carregando..." : "Salvar"}
+      <ModalFooter>
+        <Button colorScheme="gray" mr={3} onClick={onClose}>
+          Cancelar
         </Button>
-      </DialogFooter>
+        <Button
+          isLoading={loading}
+          type="submit"
+          colorScheme="whatsapp"
+          variant="solid"
+        >
+          Salvar
+        </Button>
+      </ModalFooter>
     </form>
   );
 };
