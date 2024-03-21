@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { SquaresFour, Truck, User, Wrench } from "phosphor-react";
+import { Gear, SquaresFour, Truck, User, Wrench } from "phosphor-react";
 
 // import logo from "../assets/Eco.png";
 
@@ -109,8 +109,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <NavLink
                   to="/budget"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("dashboard") &&
-                    "bg-graydark dark:bg-meta-4"
+                    pathname.includes("budget") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <SquaresFour size={32} color="#dee4ee" />
@@ -122,7 +121,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <NavLink
                   to="/client"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("energy") && "bg-graydark dark:bg-meta-4"
+                    pathname.includes("client") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <User size={24} color="#dee4ee" />
@@ -134,7 +133,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <NavLink
                   to="/service"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("water") && "bg-graydark dark:bg-meta-4"
+                    pathname.includes("service") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <Wrench size={24} color="#dee4ee" />
@@ -144,9 +143,21 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
               <li>
                 <NavLink
+                  to="/product"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("product") && "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <Gear size={24} color="#dee4ee" />
+                  Produtos / Peças
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="/vehicle"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("waste") && "bg-graydark dark:bg-meta-4"
+                    pathname.includes("vehicle") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <Truck size={24} color="#dee4ee" />

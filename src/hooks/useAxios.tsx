@@ -39,8 +39,6 @@ export function useAxios(): UseAxiosResponse {
         params: method.toLowerCase() === "get" ? data : undefined,
         cancelToken: axios.CancelToken.source().token,
       });
-
-      console.log(result);
       return result;
     } catch (error) {
       return error;

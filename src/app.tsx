@@ -14,6 +14,7 @@ import { Budget } from "./pages/budget/budget";
 import { CLients } from "./pages/clients/clients";
 import { Services } from "./pages/services/services";
 import { Vehicles } from "./pages/vehicles/vehicles";
+import { Products } from "./pages/products/products";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,9 @@ function App() {
           </Route>
           <Route path="/service" element={<DefaultLayout />}>
             <Route index element={<Services />} />
+          </Route>
+          <Route path="/product" element={<DefaultLayout />}>
+            <Route index element={<Products />} />
           </Route>
           <Route path="/vehicle" element={<DefaultLayout />}>
             <Route index element={<Vehicles />} />
