@@ -49,9 +49,8 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           className="col-span-3"
           placeholder="Documento"
           required
-          id="document"
-          type="number"
-          maxLength={14}
+          type="text"
+          maxLength={20}
         />
       </div>
       <div className="grid grid-cols-3 gap-4">

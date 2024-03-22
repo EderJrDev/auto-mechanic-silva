@@ -42,8 +42,8 @@ export function Vehicles() {
       return;
     }
 
-    // data.year = parseInt(data.year);
-    // data.clientId = parseInt(data.clientId);
+    data.year = parseInt(data.year);
+    data.clientId = parseInt(data.clientId);
 
     const response = await fetchData({
       url: "vehicle",

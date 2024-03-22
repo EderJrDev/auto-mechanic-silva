@@ -103,12 +103,9 @@ export function Budget() {
   const handleButtonClick = async (id: number) => {
     console.log("Botão clicado na linha com ID:", id);
 
-    const response = await api.get(
-      `/budget/pdf/${id}`,
-      {
-        responseType: "blob", // Indica que a resposta é um blob (Binary Large Object)
-      }
-    );
+    const response = await api.get(`/budget/pdf/${id}`, {
+      responseType: "blob", // Indica que a resposta é um blob (Binary Large Object)
+    });
 
     // Cria um Blob a partir dos dados recebidos
     const blob = new Blob([response.data], { type: "application/pdf" });

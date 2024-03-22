@@ -44,11 +44,13 @@ interface BudgetFormProps {
 interface Client {
   id: string;
   name: string;
+  code: string;
 }
 
 interface Service {
   id: string;
   description: string;
+  code: string;
 }
 
 export const BudgetForm: React.FC<BudgetFormProps> = ({
@@ -138,7 +140,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
             {products &&
               products.map((product) => (
                 <option key={product.id} value={product.id}>
-                  {product.name}
+                  {`${product.code} - ${product.name}`}
                 </option>
               ))}
           </Select>
@@ -153,7 +155,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
           {services &&
             services.map((service) => (
               <option key={service.id} value={service.id}>
-                {service.description}
+                {`${service.code} - ${service.description}`}
               </option>
             ))}
         </Select>

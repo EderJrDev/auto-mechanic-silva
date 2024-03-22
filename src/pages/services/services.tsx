@@ -33,7 +33,7 @@ export function Services() {
   const [dataTable, setDataTable] = useState<Payment[]>([]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    // data.value = parseInt(data.value);
+    data.value = parseInt(data.value);
     const response = await fetchData({
       url: "service",
       method: "post",
