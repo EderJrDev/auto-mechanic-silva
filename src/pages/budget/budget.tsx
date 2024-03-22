@@ -11,8 +11,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
-
-// import { toast } from "sonner";
 import { PlusCircle } from "lucide-react";
 
 import { useAxios } from "@/hooks/useAxios";
@@ -101,6 +99,8 @@ export function Budget() {
   }, []);
 
   const handleButtonClick = async (id: number) => {
+    const loadingToast = toast.loading("Gerando orçamento...");
+
     console.log("Botão clicado na linha com ID:", id);
 
     const response = await api.get(`/budget/pdf/${id}`, {
@@ -113,14 +113,13 @@ export function Budget() {
     // Usa o file-saver para realizar o download do Blob como um arquivo PDF
     saveAs(blob, `orçamento${id}.pdf`);
 
-    // setTimeout(() => setLoading(false), 500);
-
-    if (response.status === 201) {
+    toast.dismiss(loadingToast);
+    if (response.status === 200) {
       toast.success("Arquivo gerado com sucesso!");
-      // setTableData([...tableData, response.data]);
+
       onClose();
     } else {
-      toast.error("Falha ao cadastrar cliente.");
+      toast.error("Falha ao baixar orçamento.");
     }
     // Adicione aqui a lógica para lidar com o clique do botão
   };
