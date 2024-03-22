@@ -10,6 +10,7 @@ import {
   Tr,
   Th,
   Td,
+  Input,
 } from "@chakra-ui/react";
 import { useAxios } from "@/hooks/useAxios";
 import { Label } from "@/components/label/label";
@@ -20,6 +21,8 @@ interface IFormInput {
   price: string;
   brand: string;
   code: string;
+  totalService: string;
+  totalProduct: string;
 }
 
 interface Item {
@@ -185,6 +188,30 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
           ))}
         </Tbody>
       </Table>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="items-center text-start gap-2 w-auto">
+          <Label label="Total Serviços" />
+          <Input
+            {...register("totalService")}
+            className="col-span-3"
+            required
+            placeholder="R$ 0,00"
+            type="number"
+          />
+        </div>
+        <div className="items-center text-start gap-2">
+          <Label label="Total Produtos" />
+          <Input
+            {...register("totalProduct")}
+            required
+            type="number"
+            placeholder="R$0,00"
+            className="col-span-3"
+            id="cep"
+          />
+        </div>
+      </div>
 
       <ModalFooter>
         <Button colorScheme="gray" mr={3} onClick={onClose}>

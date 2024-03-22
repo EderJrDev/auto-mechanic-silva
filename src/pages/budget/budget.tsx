@@ -26,6 +26,8 @@ interface IFormInput {
   price: string;
   brand: string;
   code: string;
+  totalProduct: string;
+  totalService: string;
 }
 
 interface Item {
@@ -55,6 +57,8 @@ export function Budget() {
     ];
 
     const obj = {
+      totalProduct: parseInt(data.totalProduct),
+      totalService: parseInt(data.totalService),
       clientId: parseInt(data.clientId),
       budgetItems: budgetItems,
     };
