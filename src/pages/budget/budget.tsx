@@ -20,6 +20,10 @@ import { Payment, columns } from "./columns";
 import { toast } from "sonner";
 import { BudgetForm } from "./budgetForm";
 
+import { api } from "../../utils/api";
+
+import { saveAs } from "file-saver";
+
 interface IFormInput {
   name: string;
   clientId: number;
@@ -99,12 +103,20 @@ export function Budget() {
   const handleButtonClick = async (id: number) => {
     console.log("Botão clicado na linha com ID:", id);
 
-    const response = await fetchData({
-      url: `/budget/pdf/${id}`,
-      method: "get",
-    });
+    const response = await api.get(
+      `/budget/pdf/${id}`,
+      {
+        responseType: "blob", // Indica que a resposta é um blob (Binary Large Object)
+      }
+    );
 
-    console.log(response);
+    // Cria um Blob a partir dos dados recebidos
+    const blob = new Blob([response.data], { type: "application/pdf" });
+
+    // Usa o file-saver para realizar o download do Blob como um arquivo PDF
+    saveAs(blob, `orçamento${id}.pdf`);
+
+    // setTimeout(() => setLoading(false), 500);
 
     if (response.status === 201) {
       toast.success("Arquivo gerado com sucesso!");
