@@ -128,15 +128,15 @@ export function Budget() {
   const [selectedProducts, setSelectedProducts] = useState<Item[]>([]);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-4">
+    <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Orçamento</h1>
-        <Button colorScheme="blackAlpha" onClick={onOpen}>
+        <Button colorScheme="facebook" onClick={onOpen}>
           {" "}
           <PlusCircle className="w-4 h-4 mr-2" /> Novo orçamento
         </Button>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal size="xl" isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Novo Cliente</ModalHeader>

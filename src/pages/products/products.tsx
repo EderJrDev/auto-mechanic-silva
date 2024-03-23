@@ -67,11 +67,11 @@ export function Products() {
   }, []);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-4">
+    <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Produtos / Peças</h1>
 
-        <Button colorScheme="blackAlpha" onClick={onOpen}>
+        <Button colorScheme="facebook" onClick={onOpen}>
           {" "}
           <PlusCircle className="w-4 h-4 mr-2" /> Novo Produto
         </Button>

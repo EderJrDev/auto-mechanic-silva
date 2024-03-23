@@ -60,7 +60,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-600 duration-300 ease-linear dark:bg-neutral-800  lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-60 flex-col overflow-y-hidden bg-slate-600 duration-300 ease-linear dark:bg-neutral-800  lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >

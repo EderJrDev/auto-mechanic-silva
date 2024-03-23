@@ -24,7 +24,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <Box overflowX="auto">
-      <Table variant="striped" colorScheme="gray">
+      <Table variant="striped" colorScheme="blackAlpha">
         <Thead>
           <Tr>
             {columns.map((column, index) => (
