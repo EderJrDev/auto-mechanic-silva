@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   Button,
@@ -12,8 +11,8 @@ import {
   Td,
   Input,
 } from "@chakra-ui/react";
-import { useAxios } from "@/hooks/useAxios";
 import { Label } from "@/components/label/label";
+import useFetch, { Client } from "@/hooks/useFetch";
 
 interface IFormInput {
   name: string;
@@ -41,17 +40,17 @@ interface BudgetFormProps {
   setSelectedProducts: React.Dispatch<React.SetStateAction<Item[]>>; // Function to update selectedProducts
 }
 
-interface Client {
-  id: string;
-  name: string;
-  code: string;
-}
+// interface Client {
+//   id: string;
+//   name: string;
+//   code: string;
+// }
 
-interface Service {
-  id: string;
-  description: string;
-  code: string;
-}
+// interface Service {
+//   id: string;
+//   description: string;
+//   code: string;
+// }
 
 export const BudgetForm: React.FC<BudgetFormProps> = ({
   onSubmit,
@@ -62,39 +61,9 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   selectedProducts,
   setSelectedProducts,
 }) => {
-  const { fetchData } = useAxios();
   const { register, handleSubmit } = useForm<IFormInput>();
 
-  const [clients, setClients] = useState<Client[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
-  const [products, setProducts] = useState<Client[]>([]);
-
-  // const [selectedServices, setSelectedServices] = useState<Item[]>([]);
-  // const [selectedProducts, setSelectedProducts] = useState<Item[]>([]);
-
-  useEffect(() => {
-    async function getData() {
-      const clients = await fetchData({
-        url: "client",
-        method: "get",
-      });
-      setClients(clients?.data || []);
-
-      const services = await fetchData({
-        url: "service",
-        method: "get",
-      });
-      setServices(services?.data || []);
-
-      const products = await fetchData({
-        url: "product",
-        method: "get",
-      });
-      setProducts(products?.data || []);
-    }
-
-    getData();
-  }, []);
+  const { clients, products, services } = useFetch();
 
   const handleServiceChange = (serviceId: string) => {
     console.log(serviceId);
@@ -123,12 +92,11 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         <div className="items-center text-start gap-2 pt-2">
           <Label label="Responsável pelo veículo" />
           <Select {...register("clientId")} placeholder="Clientes">
-            {clients &&
-              clients.map((client) => (
-                <option key={client.id} value={client.id}>
-                  {client.name}
-                </option>
-              ))}
+            {clients?.map((client: Client) => (
+              <option key={client.id} value={client.id}>
+                {client.name}
+              </option>
+            ))}
           </Select>
         </div>
         <div className="items-center text-start gap-2 w-auto">

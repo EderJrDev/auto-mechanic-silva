@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import {
   Modal,
@@ -14,13 +14,15 @@ import { DataTable } from "@/components/dataTable/dataTable";
 import { PlusCircle } from "lucide-react";
 
 import { useAxios } from "@/hooks/useAxios";
-import { Payment, columns } from "./columns";
+import { columns } from "./columns";
 import { toast } from "sonner";
 import { BudgetForm } from "./budgetForm";
 
 import { api } from "../../utils/api";
 
 import { saveAs } from "file-saver";
+import useFetch, { PropsBudget } from "@/hooks/useFetch";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface IFormInput {
   name: string;
@@ -39,14 +41,37 @@ interface Item {
 }
 
 export function Budget() {
+  const { budgets } = useFetch();
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [tableData, setTableData] = useState<Payment[]>([]);
+  const queryClient = useQueryClient();
+
+  const sendBudget = (obj: () => void) =>
+    fetchData({
+      url: "budget",
+      method: "post",
+      data: obj,
+    });
+
+  const { mutateAsync: sendBudgetFn } = useMutation({
+    mutationFn: sendBudget,
+    onSuccess(dataBudget) {
+      queryClient.setQueryData<PropsBudget[]>(["budgets"], (data) => {
+        if (Array.isArray(data)) {
+          console.log(data);
+          return [...data, dataBudget.data];
+        }
+        return [dataBudget.data];
+      });
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-
     console.log(selectedServices);
     console.log(selectedProducts);
 
@@ -65,39 +90,15 @@ export function Budget() {
       budgetItems: budgetItems,
     };
 
-    console.log(obj);
-
-    const response = await fetchData({
-      url: "budget",
-      method: "post",
-      data: obj,
-    });
-
-    console.log(obj);
+    const response = await sendBudgetFn(obj);
 
     if (response.status === 201) {
       toast.success("Produto adicionado com sucesso!");
       onClose();
-      setTableData([...tableData, response]);
     } else {
       toast.error("Falha ao cadastrar produto.");
     }
   };
-
-  useEffect(() => {
-    async function getData(): Promise<Payment[]> {
-      const response = await fetchData({
-        url: "budget",
-        method: "get",
-      });
-
-      setTableData(response?.data || []);
-      return response.data;
-    }
-
-    getData();
-  }, []);
-
   const handleButtonClick = async (id: number) => {
     const loadingToast = toast.loading("Gerando orçamento...");
 
@@ -121,7 +122,6 @@ export function Budget() {
     } else {
       toast.error("Falha ao baixar orçamento.");
     }
-    // Adicione aqui a lógica para lidar com o clique do botão
   };
 
   const [selectedServices, setSelectedServices] = useState<Item[]>([]);
@@ -139,7 +139,7 @@ export function Budget() {
         <Modal size="xl" isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Novo Cliente</ModalHeader>
+            <ModalHeader>Novo orçamento</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <BudgetForm
@@ -158,7 +158,7 @@ export function Budget() {
       {/* table */}
       <DataTable
         columns={columns}
-        data={tableData}
+        data={budgets}
         onButtonClick={handleButtonClick}
       />
       {/* table */}

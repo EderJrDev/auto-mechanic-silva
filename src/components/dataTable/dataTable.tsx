@@ -9,7 +9,7 @@ interface ColumnDef<TData, TValue> {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data?: TData[];
   onButtonClick?: (id: number) => void;
 }
 
@@ -35,7 +35,7 @@ export function DataTable<TData, TValue>({
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item, rowIndex) => (
+          {data?.map((item, rowIndex) => (
             <Tr key={rowIndex}>
               {columns.map((column, colIndex) => (
                 <Td key={colIndex}>{item[column.accessor]}</Td>

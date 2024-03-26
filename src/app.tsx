@@ -16,6 +16,8 @@ import { Services } from "./pages/services/services";
 import { Vehicles } from "./pages/vehicles/vehicles";
 import { Products } from "./pages/products/products";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -23,31 +25,35 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  const queryClient = new QueryClient();
+
   return loading ? (
     <Loader />
   ) : (
     <>
-      <AuthProvider>
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<Signin />} />
-          <Route path="/budget" element={<DefaultLayout />}>
-            <Route index element={<Budget />} />
-          </Route>
-          <Route path="/client" element={<DefaultLayout />}>
-            <Route index element={<CLients />} />
-          </Route>
-          <Route path="/service" element={<DefaultLayout />}>
-            <Route index element={<Services />} />
-          </Route>
-          <Route path="/product" element={<DefaultLayout />}>
-            <Route index element={<Products />} />
-          </Route>
-          <Route path="/vehicle" element={<DefaultLayout />}>
-            <Route index element={<Vehicles />} />
-          </Route>
-        </Routes>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Routes>
+            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<Signin />} />
+            <Route path="/budget" element={<DefaultLayout />}>
+              <Route index element={<Budget />} />
+            </Route>
+            <Route path="/client" element={<DefaultLayout />}>
+              <Route index element={<CLients />} />
+            </Route>
+            <Route path="/service" element={<DefaultLayout />}>
+              <Route index element={<Services />} />
+            </Route>
+            <Route path="/product" element={<DefaultLayout />}>
+              <Route index element={<Products />} />
+            </Route>
+            <Route path="/vehicle" element={<DefaultLayout />}>
+              <Route index element={<Vehicles />} />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </QueryClientProvider>
     </>
   );
 }
