@@ -7,7 +7,7 @@ import { Button, Input, ModalFooter, Textarea } from "@chakra-ui/react";
 interface IFormInput {
   code: string;
   description: string;
-  value: number;
+  value: string;
 }
 
 interface ClientFormProps {

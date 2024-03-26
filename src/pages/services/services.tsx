@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 //components
 import {
@@ -17,51 +16,58 @@ import { toast } from "sonner";
 import { PlusCircle } from "lucide-react";
 
 import { useAxios } from "@/hooks/useAxios";
-import { Payment, columns } from "./colums";
+import { PropsService, columns } from "./colums";
 import { ServicesForm } from "./servicesForm";
+import useFetch from "@/hooks/useFetch";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface IFormInput {
   code: string;
   description: string;
-  value: number;
+  value: string;
 }
 
 export function Services() {
+  const { services } = useFetch();
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [dataTable, setDataTable] = useState<Payment[]>([]);
+  const queryClient = useQueryClient();
+
+  const sendService = (obj: () => void) =>
+    fetchData({
+      url: "service",
+      method: "post",
+      data: obj,
+    });
+
+  const { mutateAsync: sendServiceFn } = useMutation({
+    mutationFn: sendService,
+    onSuccess(response) {
+      queryClient.setQueryData<PropsService[]>(["services"], (data) => {
+        if (Array.isArray(data)) {
+          return [...data, response.data];
+        }
+        return [response.data];
+      });
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     data.value = parseInt(data.value);
-    const response = await fetchData({
-      url: "service",
-      method: "post",
-      data: data,
-    });
+
+    const response = await sendServiceFn(data);
 
     if (response.status === 201) {
       toast.success("Serviço criado com sucesso!");
       onClose();
-      setDataTable([...dataTable, response]);
     } else {
       toast.error("Falha ao cadastrar serviço.");
     }
   };
-
-  useEffect(() => {
-    async function getData(): Promise<Payment[]> {
-      const response = await fetchData({
-        url: "service",
-        method: "get",
-      });
-
-      setDataTable(response?.data || []);
-      return response.data;
-    }
-
-    getData();
-  }, []);
 
   return (
     <div className="p-4 space-y-4">
@@ -89,7 +95,7 @@ export function Services() {
         </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={dataTable} />
+      <DataTable columns={columns} data={services} />
       {/* table */}
     </div>
   );

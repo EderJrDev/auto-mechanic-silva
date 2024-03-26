@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import { PlusCircle } from "lucide-react";
 //components
 import {
   Modal,
@@ -10,31 +12,52 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
 
-import { toast } from "sonner";
-import { PlusCircle } from "lucide-react";
-
+import useFetch from "@/hooks/useFetch";
 import { useAxios } from "@/hooks/useAxios";
-import { Payment, columns } from "./columns";
-import { VehiclesForm } from "./vehiclesForm";
 
-import { Button } from "@chakra-ui/react";
+import { VehiclesForm } from "./vehiclesForm";
+import { PropsVehicle, columns } from "./columns";
 
 interface IFormInput {
   name: string;
   plate: string;
   color: string;
-  year: number;
+  year: string;
   city: string;
-  clientId: number;
+  clientId: string;
 }
 
 export function Vehicles() {
+  const { vehicles } = useFetch();
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [dataTable, setDataTable] = useState<Payment[]>([]);
+  const queryClient = useQueryClient();
+
+  const sendService = (obj: () => void) =>
+    fetchData({
+      url: "vehicle",
+      method: "post",
+      data: obj,
+    });
+
+  const { mutateAsync: sendVehiclesFn } = useMutation({
+    mutationFn: sendService,
+    onSuccess(response) {
+      queryClient.setQueryData<PropsVehicle[]>(["vehicles"], (data) => {
+        if (Array.isArray(data)) {
+          return [...data, response.data];
+        }
+        return [response.data];
+      });
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     if (!data.clientId) {
@@ -45,36 +68,14 @@ export function Vehicles() {
     data.year = parseInt(data.year);
     data.clientId = parseInt(data.clientId);
 
-    const response = await fetchData({
-      url: "vehicle",
-      method: "post",
-      data: data,
-    });
-
+    const response = await sendVehiclesFn(data);
     if (response.status === 201) {
       toast.success("Veículo adicionado com sucesso!");
-      setDataTable([...dataTable, response.data]);
       onClose();
     } else {
       toast.error("Falha ao cadastrar serviço.");
     }
   };
-
-  useEffect(() => {
-    async function getData(): Promise<Payment[]> {
-      const response = await fetchData({
-        url: "vehicle",
-        method: "get",
-      });
-
-      console.log(response.data);
-
-      setDataTable(response?.data || []);
-      return response.data;
-    }
-
-    getData();
-  }, []);
 
   return (
     <div className="p-4 space-y-4">
@@ -101,7 +102,7 @@ export function Vehicles() {
         </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={dataTable} />
+      <DataTable columns={columns} data={vehicles} />
       {/* table */}
     </div>
   );

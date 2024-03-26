@@ -16,7 +16,7 @@ import useFetch, { Client } from "@/hooks/useFetch";
 
 interface IFormInput {
   name: string;
-  clientId: number;
+  clientId: string;
   price: string;
   brand: string;
   code: string;
@@ -39,18 +39,6 @@ interface BudgetFormProps {
   selectedProducts: Item[]; // Type as an array of Item objects
   setSelectedProducts: React.Dispatch<React.SetStateAction<Item[]>>; // Function to update selectedProducts
 }
-
-// interface Client {
-//   id: string;
-//   name: string;
-//   code: string;
-// }
-
-// interface Service {
-//   id: string;
-//   description: string;
-//   code: string;
-// }
 
 export const BudgetForm: React.FC<BudgetFormProps> = ({
   onSubmit,

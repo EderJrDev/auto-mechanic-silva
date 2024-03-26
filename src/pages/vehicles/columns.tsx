@@ -3,7 +3,7 @@ interface ColumnDef<TData> {
   accessor: keyof TData;
 }
 
-export type Payment = {
+export type PropsVehicle = {
   name: string;
   plate: string;
   color: string;
@@ -12,7 +12,7 @@ export type Payment = {
   clientId: number;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<PropsVehicle>[] = [
   {
     accessor: "clientId",
     header: "Cliente",

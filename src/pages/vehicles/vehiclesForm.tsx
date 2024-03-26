@@ -10,9 +10,9 @@ interface IFormInput {
   name: string;
   plate: string;
   color: string;
-  year: number;
+  year: string;
   city: string;
-  clientId: number;
+  clientId: string;
 }
 
 interface ClientFormProps {

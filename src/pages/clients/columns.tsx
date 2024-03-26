@@ -1,9 +1,9 @@
 interface ColumnDef<TData> {
   header: string;
-  accessor: keyof TData;
+  accessor?: keyof TData;
 }
 
-export type Payment = {
+export type PropsClient = {
   id: string;
   name: string;
   phone: null;
@@ -11,7 +11,7 @@ export type Payment = {
   address: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<PropsClient>[] = [
   {
     accessor: "name",
     header: "Nome",

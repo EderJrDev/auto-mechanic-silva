@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { PlusCircle } from "lucide-react";
 //components
 import {
   Modal,
@@ -13,12 +15,11 @@ import {
 } from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
 
-import { toast } from "sonner";
-import { PlusCircle } from "lucide-react";
-
+import useFetch from "@/hooks/useFetch";
 import { useAxios } from "@/hooks/useAxios";
-import { Payment, columns } from "./columns";
+
 import { ProductForm } from "./productForm";
+import { PropsProduct, columns } from "./columns";
 
 interface IFormInput {
   name: string;
@@ -28,43 +29,48 @@ interface IFormInput {
 }
 
 export function Products() {
+  const { products } = useFetch();
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [dataTable, setDataTable] = useState<Payment[]>([]);
+  const queryClient = useQueryClient();
+
+  const sendProduct = (obj: () => void) =>
+    fetchData({
+      url: "product",
+      method: "post",
+      data: obj,
+    });
+
+  const { mutateAsync: sendProductFn } = useMutation({
+    mutationFn: sendProduct,
+    onSuccess(response) {
+      queryClient.setQueryData<PropsProduct[]>(["services"], (data) => {
+        if (Array.isArray(data)) {
+          return [...data, response.data];
+        }
+        return [response.data];
+      });
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
 
     data.price = parseInt(data.price);
-    const response = await fetchData({
-      url: "product",
-      method: "post",
-      data: data,
-    });
+
+    const response = await sendProductFn(data);
 
     if (response.status === 201) {
       toast.success("Produto adicionado com sucesso!");
       onClose();
-      setDataTable([...dataTable, response]);
     } else {
       toast.error("Falha ao cadastrar produto.");
     }
   };
-
-  useEffect(() => {
-    async function getData(): Promise<Payment[]> {
-      const response = await fetchData({
-        url: "product",
-        method: "get",
-      });
-
-      setDataTable(response?.data || []);
-      return response.data;
-    }
-
-    getData();
-  }, []);
 
   return (
     <div className="p-4 space-y-4">
@@ -92,7 +98,7 @@ export function Products() {
         </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={dataTable} />
+      <DataTable columns={columns} data={products} />
       {/* table */}
     </div>
   );

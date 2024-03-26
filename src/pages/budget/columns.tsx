@@ -1,16 +1,29 @@
+import { PropsService } from "../services/colums";
+
 interface ColumnDef<TData> {
   header?: string;
   accessor?: keyof TData; // Torna a propriedade opcional
   isButton?: boolean;
 }
 
-export type Payment = {
+interface BudgetItem {
+  budgetId: number;
   id: number;
-  totalValue: number;
-  clientId: number;
-};
+  product?: string;
+  productsId?: number;
+  quantity: number;
+  service: PropsService[];
+  servicesId: number;
+}
 
-export const columns: ColumnDef<Payment>[] = [
+export interface PropsBudget {
+  id: string;
+  clientId: string;
+  totalValue: number;
+  budgetItems: BudgetItem[];
+}
+
+export const columns: ColumnDef<PropsBudget>[] = [
   {
     accessor: "id",
     header: "ID",

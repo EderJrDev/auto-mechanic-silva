@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { toast } from "sonner";
+import { PlusCircle } from "lucide-react";
+
 import {
   Modal,
   ModalOverlay,
@@ -11,22 +16,19 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { DataTable } from "@/components/dataTable/dataTable";
-import { PlusCircle } from "lucide-react";
 
+import useFetch from "@/hooks/useFetch";
 import { useAxios } from "@/hooks/useAxios";
-import { columns } from "./columns";
-import { toast } from "sonner";
-import { BudgetForm } from "./budgetForm";
 
-import { api } from "../../utils/api";
+import { BudgetForm } from "./budgetForm";
+import { PropsBudget, columns } from "./columns";
 
 import { saveAs } from "file-saver";
-import useFetch, { PropsBudget } from "@/hooks/useFetch";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "../../utils/api";
 
 interface IFormInput {
   name: string;
-  clientId: number;
+  clientId: string;
   price: string;
   brand: string;
   code: string;
@@ -45,6 +47,9 @@ export function Budget() {
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [selectedServices, setSelectedServices] = useState<Item[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<Item[]>([]);
+
   const queryClient = useQueryClient();
 
   const sendBudget = (obj: () => void) =>
@@ -56,13 +61,12 @@ export function Budget() {
 
   const { mutateAsync: sendBudgetFn } = useMutation({
     mutationFn: sendBudget,
-    onSuccess(dataBudget) {
+    onSuccess(response) {
       queryClient.setQueryData<PropsBudget[]>(["budgets"], (data) => {
         if (Array.isArray(data)) {
-          console.log(data);
-          return [...data, dataBudget.data];
+          return [...data, response.data];
         }
-        return [dataBudget.data];
+        return [response.data];
       });
     },
     onError(error) {
@@ -99,6 +103,7 @@ export function Budget() {
       toast.error("Falha ao cadastrar produto.");
     }
   };
+
   const handleButtonClick = async (id: number) => {
     const loadingToast = toast.loading("Gerando orçamento...");
 
@@ -123,9 +128,6 @@ export function Budget() {
       toast.error("Falha ao baixar orçamento.");
     }
   };
-
-  const [selectedServices, setSelectedServices] = useState<Item[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<Item[]>([]);
 
   return (
     <div className="p-4 space-y-4">
