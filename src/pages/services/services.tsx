@@ -24,7 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface IFormInput {
   code: string;
   description: string;
-  value: string;
+  value: any;
 }
 
 export function Services() {
@@ -57,6 +57,8 @@ export function Services() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    data.value = parseInt(data.value);
+
     const response = await sendServiceFn(data);
 
     if (response.status === 201) {

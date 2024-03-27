@@ -125,6 +125,8 @@ export function Budget() {
         url: `/budget/pdf/${id}`,
         method: "get",
       });
+      
+      console.log(response)
 
       const headerContent = (
         <div className="text-center border-t border-t-black">
@@ -279,6 +281,7 @@ export function Budget() {
 
       toast.success("Arquivo gerado com sucesso!");
     } catch (error) {
+      console.log(error);
       toast.error("Falha ao baixar orçamento.");
     } finally {
       toast.dismiss(loadingToast);
