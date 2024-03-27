@@ -25,9 +25,9 @@ interface IFormInput {
   name: string;
   plate: string;
   color: string;
-  year: string;
+  year: any;
   city: string;
-  clientId: string;
+  clientId: any;
 }
 
 export function Vehicles() {
@@ -64,6 +64,9 @@ export function Vehicles() {
       toast.warning("Preencha todas as informações!");
       return;
     }
+
+    data.clientId = parseInt(data.clientId);
+    data.year = parseInt(data.year);
 
     const response = await sendVehiclesFn(data);
     if (response.status === 201) {

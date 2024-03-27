@@ -45,7 +45,7 @@ export function Products() {
   const { mutateAsync: sendProductFn } = useMutation({
     mutationFn: sendProduct,
     onSuccess(response) {
-      queryClient.setQueryData<PropsProduct[]>(["services"], (data) => {
+      queryClient.setQueryData<PropsProduct[]>(["products"], (data) => {
         if (Array.isArray(data)) {
           return [...data, response.data];
         }

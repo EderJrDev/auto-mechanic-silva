@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
-import { useAxios } from "@/hooks/useAxios";
-import { PropsClient } from "../clients/columns";
 import { Label } from "@/components/label/label";
 import { Button, Input, ModalFooter, Select } from "@chakra-ui/react";
+
+import useFetch from "@/hooks/useFetch";
 
 interface IFormInput {
   name: string;
   plate: string;
   color: string;
-  year: string;
+  year: any;
   city: string;
-  clientId: string;
+  clientId: any;
 }
 
 interface ClientFormProps {
@@ -21,35 +20,13 @@ interface ClientFormProps {
   onClose: () => void;
 }
 
-interface Client {
-  id: string;
-  name: string;
-}
-
 export const VehiclesForm: React.FC<ClientFormProps> = ({
   onSubmit,
   loading,
   onClose,
 }) => {
+  const { clients } = useFetch();
   const { register, handleSubmit } = useForm<IFormInput>();
-
-  const [clients, setClients] = useState<Client[]>([]);
-
-  const { fetchData } = useAxios();
-
-  useEffect(() => {
-    async function getData(): Promise<PropsClient[]> {
-      const response = await fetchData({
-        url: "client",
-        method: "get",
-      });
-
-      setClients(response?.data || []);
-      return response.data;
-    }
-
-    getData();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -67,7 +44,6 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
               })}
           </Select>
         </div>
-
         <div className="items-center text-start gap-2 w-auto">
           <Label label="Veículo / Modelo" />
           <Input

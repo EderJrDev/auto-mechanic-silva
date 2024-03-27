@@ -39,12 +39,12 @@ export function DataTable<TData, TItem extends Record<string, any>>({
         <Tbody>
           {data?.map((item, rowIndex) => (
             <Tr key={rowIndex}>
-              {columns.map((column, colIndex) => (
+              {columns?.map((column, colIndex) => (
                 <Td key={colIndex}>
                   {item[column.accessor as keyof TData] as ReactNode}
                 </Td>
               ))}
-              {columns.some((column) => column.isButton) && (
+              {columns?.some((column) => column.isButton) && (
                 <Td className="items-center">
                   {columns.map((column, colIndex) =>
                     column.isButton ? (
