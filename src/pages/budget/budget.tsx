@@ -23,9 +23,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { BudgetForm } from "./budgetForm";
 import { PropsBudget, columns } from "./columns";
 
-// import { saveAs } from "file-saver";
-// import { api } from "../../utils/api";
-
+// @ts-ignore
 import html2pdf from "html2pdf.js";
 import ReactDOMServer from "react-dom/server";
 
@@ -45,6 +43,19 @@ interface Item {
   description?: string;
 }
 
+interface BudgetItem {
+  serviceId?: number;
+  productId?: number;
+  quantity?: number;
+}
+
+interface BudgetObject {
+  totalProduct: number;
+  totalService: number;
+  clientId: number;
+  budgetItems: BudgetItem[];
+}
+
 export function Budget() {
   const { budgets } = useFetch();
   const { loading, fetchData } = useAxios();
@@ -55,7 +66,7 @@ export function Budget() {
 
   const queryClient = useQueryClient();
 
-  const sendBudget = (obj: () => void) =>
+  const sendBudget = (obj: BudgetObject) =>
     fetchData({
       url: "budget",
       method: "post",
@@ -86,11 +97,11 @@ export function Budget() {
     const productIds = selectedProducts.map((product) => product.id);
 
     const budgetItems = [
-      ...serviceIds.map((id) => ({ serviceId: id, quantity: 1 })),
-      ...productIds.map((id) => ({ productId: id, quantity: 1 })),
+      ...serviceIds.map((id) => ({ serviceId: parseInt(id), quantity: 1 })),
+      ...productIds.map((id) => ({ productId: parseInt(id), quantity: 1 })),
     ];
 
-    const obj = {
+    const obj: BudgetObject = {
       totalProduct: parseInt(data.totalProduct),
       totalService: parseInt(data.totalService),
       clientId: parseInt(data.clientId),
@@ -238,7 +249,7 @@ export function Budget() {
         jsPDF: { unit: "pt", format: "letter", orientation: "portrait" },
       };
 
-      const addPageNumbers = (pdf) => {
+      const addPageNumbers = (pdf: any) => {
         const totalPages = pdf.internal.getNumberOfPages();
         for (let i = 1; i <= totalPages; i++) {
           pdf.setPage(i);
