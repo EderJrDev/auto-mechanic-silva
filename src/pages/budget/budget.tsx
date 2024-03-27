@@ -109,20 +109,14 @@ export function Budget() {
 
   const handleButtonClick = async (id: number) => {
     const loadingToast = toast.loading("Gerando orçamento...");
-
-    console.log("Botão clicado na linha com ID:", id);
-
     try {
       const response = await fetchData({
         url: `/budget/pdf/${id}`,
         method: "get",
       });
 
-      console.log(response);
-      console.log(response.data);
-
       const headerContent = (
-        <div className="text-center border-t-2 border-t-black">
+        <div className="text-center border-t border-t-black">
           <div className="text-center text-sm my-5 block">
             <h1 className="font-bold text-2xl mb-6">AUTO MECÂNICA SILVA</h1>
             <p>RUA HIPÓLITO JOSÉ DA COSTA 3800 - JD. GUANABARA</p>
@@ -130,7 +124,7 @@ export function Budget() {
             <p>FONE 01699378-8214 CNPJ: 32.768.941/0001-66</p>
           </div>
 
-          <div className="flex justify-between border-t-2 border-t-black text-sm border-b py-2">
+          <div className="flex justify-between border-y border-t-black text-sm py-2">
             <p>
               <strong>COTAÇÃO</strong> - {response.data.numero_orcamento}
             </p>
@@ -142,22 +136,22 @@ export function Budget() {
             </p>
           </div>
 
-          <div className="text-left text-sm my-4">
-            <p>
+          <div className="text-left text-sm my-3">
+            <p className="py-2">
               <strong>Cliente:</strong> {response.data.cliente} VENDA CONSUMIDOR
               &nbsp; DEP: MATRIZ BTS - S.P.
             </p>
-            <p>
+            <p className="py-1">
               <strong>Endereco:</strong> {response.data.endereco}&nbsp; NF:
             </p>
-            <p>
+            <p className="py-1">
               <strong>Cidade:</strong> {response.data.cidade} &nbsp; HORA:{" "}
               {response.data.hora}
             </p>
-            <p>
+            <p className="py-1">
               <strong>CPF/CNPJ:</strong> {response.data.documento}
             </p>
-            <p>
+            <p className="py-1">
               <strong>FONE:</strong>
               {response.data.fone}
             </p>
@@ -167,22 +161,22 @@ export function Budget() {
             <p>
               <strong>VEICULO:</strong> {response.data.veiculo}&nbsp;{" "}
               <strong>PLACA:</strong> {response.data.placa} &nbsp;{" "}
-              <strong>CIDADE:</strong>
+              <strong>CIDADE: </strong>
               {response.data.cidade} &nbsp; <strong>CLASSE:</strong>{" "}
-              {response.data.classe} &nbsp; <strong>COR:</strong>
+              {response.data.classe} &nbsp; <strong>COR: </strong>
               {response.data.cor} &nbsp; <strong>ANO:</strong>{" "}
               {response.data.ano}
             </p>
           </div>
 
-          <div className="mt-6 text-sm border-t border-t-black w-full">
-            <table className="w-full border-collapse">
+          <div className="my-4 text-sm w-full border-t border-black">
+            <table className="w-full border-collapse mt-2">
               <thead>
                 <tr>
-                  <th className="border px-4 py-2">QT. ATEN</th>
+                  <th className="border px-4 py-2">QT. ITEM</th>
                   <th className="border px-4 py-2">UNID</th>
                   <th className="border px-4 py-2">CÓDIGO</th>
-                  <th className="border px-4 py-2" style={{ width: "40%" }}>
+                  <th className="border px-4 py-2" style={{ width: "50%" }}>
                     DESCRIÇÃO
                   </th>
                   <th className="border px-4 py-2">MARCA</th>
@@ -224,7 +218,7 @@ export function Budget() {
               </p>
             </div>
 
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between my-4">
               <p>DATA DE PAGTO: ___________</p>
               <p>
                 <strong>TOTAL: {response.data.total}</strong>
@@ -238,7 +232,7 @@ export function Budget() {
 
       const options = {
         margin: 27,
-        filename: "relatorio_inadimplencia.pdf",
+        filename: "Orçamento_Auto_Mecânica_Silva.pdf",
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: "pt", format: "letter", orientation: "portrait" },
@@ -259,7 +253,6 @@ export function Budget() {
       };
 
       const generatePDF = () => {
-        // const pdf = new jsPDF(options.jsPDF);
         html2pdf()
           .from(htmlString)
           .set(options)

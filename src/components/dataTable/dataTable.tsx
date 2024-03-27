@@ -1,25 +1,31 @@
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
 import { Download } from "phosphor-react";
 
-interface ColumnDef<TData, TValue> {
+interface ColumnDef<TData> {
   header?: string;
   accessor?: keyof TData;
   isButton?: boolean;
 }
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+interface DataTableProps<TData> {
+  columns: ColumnDef<TData>[];
   data?: TData[];
   onButtonClick?: (id: number) => void;
 }
 
-export function DataTable<TData, TValue>({
+interface DataTableItem {
+  id: number;
+}
+
+export function DataTable<TData extends DataTableItem>({
   columns,
   data,
   onButtonClick,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData>) {
   const handleButtonClick = (id: number) => {
-    onButtonClick(id);
+    if (onButtonClick) {
+      onButtonClick(id);
+    }
   };
 
   return (
@@ -48,7 +54,11 @@ export function DataTable<TData, TValue>({
                         colorScheme="teal"
                         variant="solid"
                         key={colIndex}
-                        onClick={() => handleButtonClick(item.id)}
+                        onClick={() => {
+                          if (item && item.id) {
+                            handleButtonClick(item.id);
+                          }
+                        }}
                       >
                         <Download size={24} />
                       </Button>
