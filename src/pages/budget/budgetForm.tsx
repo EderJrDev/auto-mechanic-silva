@@ -57,9 +57,9 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   const handleServiceChange = (serviceId: string) => {
     console.log(serviceId);
     const selectedService = services.find(
-      (service) => service.id.toString() === serviceId
+      (service: any) => service.id?.toString() === serviceId
     );
-    if (selectedService) {
+    if (selectedService && selectedService.id) {
       console.log(selectedService.description);
       setSelectedServices([selectedService, ...selectedServices]);
     }
@@ -67,7 +67,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   const handleProductChange = (productId: string) => {
     console.log(productId);
     const selectedProduct = products.find(
-      (product) => product.id.toString() === productId
+      (product: any) => product.id.toString() === productId
     );
     if (selectedProduct) {
       console.log(selectedProduct.name);

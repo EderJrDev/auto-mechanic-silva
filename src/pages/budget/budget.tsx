@@ -23,7 +23,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { BudgetForm } from "./budgetForm";
 import { PropsBudget, columns } from "./columns";
 
-// @ts-ignore
+// @ts-ignore 
 import html2pdf from "html2pdf.js";
 import ReactDOMServer from "react-dom/server";
 
@@ -269,7 +269,7 @@ export function Budget() {
           .set(options)
           .toPdf()
           .get("pdf")
-          .then(function (pdfDoc) {
+          .then(function (pdfDoc: any) {
             addPageNumbers(pdfDoc);
             pdfDoc.save(options.filename);
           });

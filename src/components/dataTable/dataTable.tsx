@@ -1,5 +1,6 @@
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
 import { Download } from "phosphor-react";
+import { ReactNode } from "react";
 
 interface ColumnDef<TData> {
   header?: string;
@@ -39,7 +40,9 @@ export function DataTable<TData, TItem extends Record<string, any>>({
           {data?.map((item, rowIndex) => (
             <Tr key={rowIndex}>
               {columns.map((column, colIndex) => (
-                <Td key={colIndex}>{item[column.accessor]}</Td>
+                <Td key={colIndex}>
+                  {item[column.accessor as keyof TData] as ReactNode}
+                </Td>
               ))}
               {columns.some((column) => column.isButton) && (
                 <Td className="items-center">
@@ -50,7 +53,12 @@ export function DataTable<TData, TItem extends Record<string, any>>({
                         variant="solid"
                         key={colIndex}
                         onClick={() => {
-                          if (item && item.id) {
+                          if (
+                            typeof item === "object" &&
+                            item !== null &&
+                            "id" in item &&
+                            typeof item.id === "number"
+                          ) {
                             handleButtonClick(item.id);
                           }
                         }}

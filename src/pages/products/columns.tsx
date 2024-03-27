@@ -4,7 +4,7 @@ interface ColumnDef<TData> {
 }
 
 export type PropsProduct = {
-  id: number;
+  id: string;
   name: string;
   price: string;
   brand: string;

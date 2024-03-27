@@ -33,12 +33,12 @@ interface IFormInput {
   document: number;
 }
 
-interface ClientObject {
-  name: string;
-  document: number;
-  phone: number;
-  address: string;
-}
+// interface ClientObject {
+//   name: string;
+//   document: number;
+//   phone: number;
+//   address: string;
+// }
 
 export function CLients() {
   const { clients } = useFetch();
@@ -72,7 +72,7 @@ export function CLients() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const address = `${data.cep}, ${data.rua}, ${data.bairro}, ${data.number}, ${data.cidade}`;
 
-    const obj: ClientObject = {
+    const obj: any = {
       name: data.name,
       document: data.document,
       phone: data.tel,
