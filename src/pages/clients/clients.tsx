@@ -33,6 +33,13 @@ interface IFormInput {
   document: number;
 }
 
+interface ClientObject {
+  name: string;
+  document: number;
+  phone: number;
+  address: string;
+}
+
 export function CLients() {
   const { clients } = useFetch();
   const { loading, fetchData } = useAxios();
@@ -40,7 +47,7 @@ export function CLients() {
 
   const queryClient = useQueryClient();
 
-  const sendClient = (obj: () => void) =>
+  const sendClient = (obj: IFormInput) =>
     fetchData({
       url: "client",
       method: "post",
@@ -65,7 +72,7 @@ export function CLients() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const address = `${data.cep}, ${data.rua}, ${data.bairro}, ${data.number}, ${data.cidade}`;
 
-    const obj = {
+    const obj: ClientObject = {
       name: data.name,
       document: data.document,
       phone: data.tel,

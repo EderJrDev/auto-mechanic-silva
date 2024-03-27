@@ -37,7 +37,7 @@ export function Vehicles() {
 
   const queryClient = useQueryClient();
 
-  const sendService = (obj: () => void) =>
+  const sendService = (obj: IFormInput) =>
     fetchData({
       url: "vehicle",
       method: "post",
@@ -64,9 +64,6 @@ export function Vehicles() {
       toast.warning("Preencha todas as informações!");
       return;
     }
-
-    data.year = parseInt(data.year);
-    data.clientId = parseInt(data.clientId);
 
     const response = await sendVehiclesFn(data);
     if (response.status === 201) {

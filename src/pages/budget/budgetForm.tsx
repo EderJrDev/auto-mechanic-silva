@@ -11,8 +11,9 @@ import {
   Td,
   Input,
 } from "@chakra-ui/react";
+import useFetch from "@/hooks/useFetch";
 import { Label } from "@/components/label/label";
-import useFetch, { Client } from "@/hooks/useFetch";
+import { PropsClient } from "../clients/columns";
 
 interface IFormInput {
   name: string;
@@ -80,7 +81,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         <div className="items-center text-start gap-2 pt-2">
           <Label label="Responsável pelo veículo" />
           <Select {...register("clientId")} placeholder="Clientes">
-            {clients?.map((client: Client) => (
+            {clients?.map((client: PropsClient) => (
               <option key={client.id} value={client.id}>
                 {client.name}
               </option>

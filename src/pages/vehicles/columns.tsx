@@ -7,9 +7,9 @@ export type PropsVehicle = {
   name: string;
   plate: string;
   color: string;
-  year: number;
+  year: string;
   city: string;
-  clientId: number;
+  clientId: string;
 };
 
 export const columns: ColumnDef<PropsVehicle>[] = [

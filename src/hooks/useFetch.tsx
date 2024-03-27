@@ -52,27 +52,27 @@ function useFetch() {
     return budgets.data;
   };
 
-  const { data: clients } = useQuery<PropsClient[], Error>({
+  const { data: clients = [] } = useQuery<PropsClient[], Error>({
     queryKey: ["clients"],
     queryFn: fetchClients,
   });
 
-  const { data: products } = useQuery<PropsProduct[], Error>({
+  const { data: products = [] } = useQuery<PropsProduct[], Error>({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
 
-  const { data: services } = useQuery<PropsService[], Error>({
+  const { data: services = [] } = useQuery<PropsService[], Error>({
     queryKey: ["services"],
     queryFn: fetchServices,
   });
 
-  const { data: vehicles } = useQuery<PropsVehicle[], Error>({
+  const { data: vehicles = [] } = useQuery<PropsVehicle[], Error>({
     queryKey: ["vehicles"],
     queryFn: fetchVehicle,
   });
 
-  const { data: budgets } = useQuery<PropsBudget[], Error>({
+  const { data: budgets = [] } = useQuery<PropsBudget[], Error>({
     queryKey: ["budgets"],
     queryFn: fetchBudgets,
   });

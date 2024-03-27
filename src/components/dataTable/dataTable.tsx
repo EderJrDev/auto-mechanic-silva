@@ -7,21 +7,17 @@ interface ColumnDef<TData> {
   isButton?: boolean;
 }
 
-interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[];
+interface DataTableProps<TData, TItem> {
+  columns: ColumnDef<TItem>[];
   data?: TData[];
   onButtonClick?: (id: number) => void;
 }
 
-interface DataTableItem {
-  id: number;
-}
-
-export function DataTable<TData extends DataTableItem>({
+export function DataTable<TData, TItem extends Record<string, any>>({
   columns,
   data,
   onButtonClick,
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TItem>) {
   const handleButtonClick = (id: number) => {
     if (onButtonClick) {
       onButtonClick(id);
@@ -36,8 +32,7 @@ export function DataTable<TData extends DataTableItem>({
             {columns.map((column, index) => (
               <Th key={index}>{column.header}</Th>
             ))}
-            {columns.some((column) => column.isButton) && <Th>Download</Th>}{" "}
-            {/* Renderiza a coluna do botão apenas se houver uma coluna com isButton definido como true */}
+            {columns.some((column) => column.isButton) && <Th>Download</Th>}
           </Tr>
         </Thead>
         <Tbody>
@@ -46,7 +41,7 @@ export function DataTable<TData extends DataTableItem>({
               {columns.map((column, colIndex) => (
                 <Td key={colIndex}>{item[column.accessor]}</Td>
               ))}
-              {columns.some((column) => column.isButton) && ( // Renderiza o botão apenas se houver uma coluna com isButton definido como true
+              {columns.some((column) => column.isButton) && (
                 <Td className="items-center">
                   {columns.map((column, colIndex) =>
                     column.isButton ? (

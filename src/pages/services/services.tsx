@@ -34,11 +34,11 @@ export function Services() {
 
   const queryClient = useQueryClient();
 
-  const sendService = (obj: () => void) =>
+  const sendService = (data: IFormInput) =>
     fetchData({
       url: "service",
       method: "post",
-      data: obj,
+      data: data,
     });
 
   const { mutateAsync: sendServiceFn } = useMutation({
@@ -57,8 +57,6 @@ export function Services() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    data.value = parseInt(data.value);
-
     const response = await sendServiceFn(data);
 
     if (response.status === 201) {

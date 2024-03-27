@@ -35,7 +35,7 @@ export function Products() {
 
   const queryClient = useQueryClient();
 
-  const sendProduct = (obj: () => void) =>
+  const sendProduct = (obj: IFormInput) =>
     fetchData({
       url: "product",
       method: "post",
@@ -59,8 +59,6 @@ export function Products() {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-
-    data.price = parseInt(data.price);
 
     const response = await sendProductFn(data);
 

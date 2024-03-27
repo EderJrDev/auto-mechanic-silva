@@ -5,8 +5,9 @@ interface ColumnDef<TData> {
 
 export type PropsService = {
   code: string;
+  id?: number;
   description: string;
-  value: number;
+  value: string;
 };
 
 export const columns: ColumnDef<PropsService>[] = [
