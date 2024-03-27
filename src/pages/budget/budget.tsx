@@ -23,7 +23,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { BudgetForm } from "./budgetForm";
 import { PropsBudget, columns } from "./columns";
 
-// @ts-ignore 
+// @ts-ignore
 import html2pdf from "html2pdf.js";
 import ReactDOMServer from "react-dom/server";
 
@@ -196,7 +196,7 @@ export function Budget() {
                 </tr>
               </thead>
               <tbody>
-                {response.data.items.map((item, index) => (
+                {response.data.items.map((item: any, index: any) => (
                   <tr key={index}>
                     <td className="border px-4 py-2">{item.qtd}</td>
                     <td className="border px-4 py-2">PC</td>

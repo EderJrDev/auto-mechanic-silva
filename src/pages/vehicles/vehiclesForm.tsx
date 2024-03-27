@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 //components
 import { useAxios } from "@/hooks/useAxios";
-import { Payment } from "../clients/columns";
+import { PropsClient } from "../clients/columns";
 import { Label } from "@/components/label/label";
 import { Button, Input, ModalFooter, Select } from "@chakra-ui/react";
 
@@ -38,7 +38,7 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
   const { fetchData } = useAxios();
 
   useEffect(() => {
-    async function getData(): Promise<Payment[]> {
+    async function getData(): Promise<PropsClient[]> {
       const response = await fetchData({
         url: "client",
         method: "get",
