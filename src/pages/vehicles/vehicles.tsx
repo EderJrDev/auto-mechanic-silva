@@ -65,10 +65,15 @@ export function Vehicles() {
       return;
     }
 
+    console.log(data);
+
     data.clientId = parseInt(data.clientId);
     data.year = parseInt(data.year);
 
+    console.log(data);
+
     const response = await sendVehiclesFn(data);
+    console.log(response);
     if (response.status === 201) {
       toast.success("Veículo adicionado com sucesso!");
       onClose();

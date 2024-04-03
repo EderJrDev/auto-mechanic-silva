@@ -109,7 +109,8 @@ export function Budget() {
       totalService: parseInt(data.totalService),
       clientId: parseInt(data.clientId),
       budgetItems: budgetItems,
-      validate: format(new Date(`${data.validate}T00:00:00`), "dd-MM-yyyy"),
+      // validate: format(new Date(`${data.validate}T00:00:00`), "dd-MM-yyyy"),
+      validate: data.validate,
     };
 
     console.log(obj);
@@ -152,7 +153,11 @@ export function Budget() {
                 <strong>VI:</strong> ÉDER SILVA CUNHA
               </p>
               <p>
-                <strong>DATA:</strong> {response.data.data}
+                <strong>DATA:</strong>{" "}
+                {format(
+                  new Date(`${response.data.validate}T00:00:00`),
+                  "dd-MM-yyyy"
+                )}
               </p>
             </div>
 
@@ -233,9 +238,9 @@ export function Budget() {
             <footer className="border-t mt-6 pt-4">
               <div className="flex justify-between">
                 <p>QTDE DE ITENS: {response.data.totalItems}</p>
-                <p>
-                  <strong>VALIDADE:</strong> {response.data.validate}
-                </p>
+                {/* <p>
+                  <strong>VALIDADE:</strong> {response.data.data}
+                </p> */}
               </div>
 
               <div className="flex justify-between my-4">

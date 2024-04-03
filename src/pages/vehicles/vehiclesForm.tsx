@@ -68,7 +68,7 @@ export const VehiclesForm: React.FC<ClientFormProps> = ({
           <Label label="Ano" />
           <Input
             {...register("year")}
-            type="number"
+            type="text"
             placeholder="Ano"
             className="col-span-3"
           />
