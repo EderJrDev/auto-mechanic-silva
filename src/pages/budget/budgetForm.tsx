@@ -23,6 +23,7 @@ interface IFormInput {
   code: string;
   totalService: string;
   totalProduct: string;
+  validate: string;
 }
 
 interface Item {
@@ -78,7 +79,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
-        <div className="items-center text-start gap-2 pt-2">
+        <div className="items-center text-start gap-2">
           <Label label="Responsável pelo veículo" />
           <Select {...register("clientId")} placeholder="Clientes">
             {clients?.map((client: PropsClient) => (
@@ -148,7 +149,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
         </Tbody>
       </Table>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div className="items-center text-start gap-2 w-auto">
           <Label label="Total Serviços" />
           <Input
@@ -165,6 +166,17 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
             {...register("totalProduct")}
             required
             type="number"
+            placeholder="R$0,00"
+            className="col-span-3"
+            id="cep"
+          />
+        </div>
+        <div className="items-center text-start gap-2">
+          <Label label="Validade do orçamento" />
+          <Input
+            {...register("validate")}
+            required
+            type="date"
             placeholder="R$0,00"
             className="col-span-3"
             id="cep"
