@@ -14,10 +14,13 @@ import {
 import useFetch from "@/hooks/useFetch";
 import { Label } from "@/components/label/label";
 import { PropsClient } from "../clients/columns";
+import { useState } from "react";
+import { PropsVehicle } from "../vehicles/columns";
 
 interface IFormInput {
   name: string;
   clientId: string;
+  vehicleId: string;
   price: string;
   brand: string;
   code: string;
@@ -51,9 +54,11 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
   selectedProducts,
   setSelectedProducts,
 }) => {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, setValue } = useForm<IFormInput>();
 
   const { clients, products, services } = useFetch();
+
+  const [vehicles, setVehicles] = useState(null);
 
   const handleServiceChange = (serviceId: string) => {
     console.log(serviceId);
@@ -76,17 +81,66 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
     }
   };
 
+  const handleClientChange = (value: any) => {
+    console.log(value);
+    console.log(clients);
+
+    value = parseInt(value);
+
+    setValue("clientId", value);
+
+    const clientSelected = clients.find(({ id }) => id === value);
+
+    console.log(clientSelected);
+
+    setVehicles(clientSelected.vehicles);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="items-center text-start gap-2">
-          <Label label="Responsável pelo veículo" />
-          <Select {...register("clientId")} placeholder="Clientes">
+          <Label label="Cliente" />
+          <Select
+            // value={client}
+            onChange={(e) => handleClientChange(e.target.value)}
+            placeholder="Clientes"
+          >
             {clients?.map((client: PropsClient) => (
               <option key={client.id} value={client.id}>
                 {client.name}
               </option>
             ))}
+          </Select>
+        </div>
+        <div className="items-center text-start gap-2 w-auto">
+          <Label label="Veículos" />
+          <Select
+            placeholder="Veículo"
+            onChange={(e) => setValue("vehicleId", e.target.value)}
+          >
+            {vehicles &&
+              vehicles.map((vehicle: PropsVehicle) => (
+                <option key={vehicle.id} value={vehicle.id}>
+                  {`${vehicle.id} - ${vehicle.name}`}
+                </option>
+              ))}
+          </Select>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="items-center text-start gap-2 w-auto">
+          <Label label="Serviços" />
+          <Select
+            placeholder="Serviços"
+            onChange={(e) => handleServiceChange(e.target.value)}
+          >
+            {services &&
+              services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {`${service.code} - ${service.description}`}
+                </option>
+              ))}
           </Select>
         </div>
         <div className="items-center text-start gap-2 w-auto">
@@ -103,20 +157,6 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
               ))}
           </Select>
         </div>
-      </div>
-      <div className="items-center text-start gap-2 w-auto">
-        <Label label="Serviços" />
-        <Select
-          placeholder="Serviços"
-          onChange={(e) => handleServiceChange(e.target.value)}
-        >
-          {services &&
-            services.map((service) => (
-              <option key={service.id} value={service.id}>
-                {`${service.code} - ${service.description}`}
-              </option>
-            ))}
-        </Select>
       </div>
 
       <Table variant="simple">

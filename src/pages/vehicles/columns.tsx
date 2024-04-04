@@ -4,6 +4,7 @@ interface ColumnDef<TData> {
 }
 
 export type PropsVehicle = {
+  id: number;
   name: string;
   plate: string;
   color: string;

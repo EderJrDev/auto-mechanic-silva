@@ -31,6 +31,7 @@ import ReactDOMServer from "react-dom/server";
 interface IFormInput {
   name: string;
   clientId: string;
+  vehicleId: string;
   price: string;
   brand: string;
   code: string;
@@ -55,6 +56,7 @@ interface BudgetObject {
   totalProduct: number;
   totalService: number;
   clientId: number;
+  vehicleId: number;
   budgetItems: BudgetItem[];
   validate: string;
 }
@@ -108,8 +110,8 @@ export function Budget() {
       totalProduct: parseInt(data.totalProduct),
       totalService: parseInt(data.totalService),
       clientId: parseInt(data.clientId),
+      vehicleId: parseInt(data.vehicleId),
       budgetItems: budgetItems,
-      // validate: format(new Date(`${data.validate}T00:00:00`), "dd-MM-yyyy"),
       validate: data.validate,
     };
 

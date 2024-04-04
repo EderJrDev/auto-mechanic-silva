@@ -1,3 +1,5 @@
+import { PropsVehicle } from "../vehicles/columns";
+
 interface ColumnDef<TData> {
   header: string;
   accessor?: keyof TData;
@@ -9,6 +11,7 @@ export type PropsClient = {
   phone: null;
   document: number;
   address: string;
+  vehicles: PropsVehicle[];
 };
 
 export const columns: ColumnDef<PropsClient>[] = [
