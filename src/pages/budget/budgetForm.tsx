@@ -58,7 +58,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
   const { clients, products, services } = useFetch();
 
-  const [vehicles, setVehicles] = useState(null);
+  const [vehicles, setVehicles] = useState<PropsVehicle[]>([]);
 
   const handleServiceChange = (serviceId: string) => {
     console.log(serviceId);
@@ -122,7 +122,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
             {vehicles &&
               vehicles.map((vehicle: PropsVehicle) => (
                 <option key={vehicle.id} value={vehicle.id}>
-                  {`${vehicle.id} - ${vehicle.name}`}
+                  {vehicle.name}
                 </option>
               ))}
           </Select>
