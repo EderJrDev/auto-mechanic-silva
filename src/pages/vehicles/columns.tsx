@@ -1,6 +1,8 @@
+import { PropsClient } from "../clients/columns";
+
 interface ColumnDef<TData> {
   header: string;
-  accessor: keyof TData;
+  accessor: keyof TData | string;
 }
 
 export type PropsVehicle = {
@@ -10,12 +12,14 @@ export type PropsVehicle = {
   color: string;
   year: string;
   city: string;
+  client: PropsClient
   clientId: number;
+  clientName: string;
 };
 
 export const columns: ColumnDef<PropsVehicle>[] = [
   {
-    accessor: "clientId",
+    accessor: "clientName",
     header: "Cliente",
   },
   {

@@ -82,6 +82,15 @@ export function Vehicles() {
     }
   };
 
+  console.log(vehicles);
+
+  const vehiclesWithClientName = vehicles.map((vehicle) => {
+    return {
+      ...vehicle, // Mantém todas as propriedades existentes do objeto vehicle
+      clientName: vehicle.client.name, // Define a nova propriedade clientName com o valor de client.name
+    };
+  });
+
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
@@ -107,7 +116,7 @@ export function Vehicles() {
         </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={vehicles} />
+      <DataTable columns={columns} data={vehiclesWithClientName} />
       {/* table */}
     </div>
   );
