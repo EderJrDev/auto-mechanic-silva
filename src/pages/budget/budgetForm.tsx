@@ -93,7 +93,7 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
     console.log(clientSelected);
 
-    setVehicles(clientSelected.vehicles);
+    setVehicles(clientSelected?.vehicles || []);
   };
 
   return (
