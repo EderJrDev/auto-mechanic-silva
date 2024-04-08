@@ -41,7 +41,17 @@ function useFetch() {
       url: "vehicle",
       method: "get",
     });
-    return vehicle.data;
+    const vehiclesWithClientName = vehicle.data?.map(
+      (vehicle: PropsVehicle) => {
+        return {
+          ...vehicle, // Mantém todas as propriedades existentes do objeto vehicle
+          clientName: vehicle.client.name, // Define a nova propriedade clientName com o valor de client.name
+        };
+      }
+    );
+
+    return vehiclesWithClientName;
+    // return vehicle.data;
   };
 
   const fetchBudgets: FetchFunction<PropsBudget> = async () => {
@@ -49,7 +59,14 @@ function useFetch() {
       url: "budget",
       method: "get",
     });
-    return budgets.data;
+    const budgetsWithClientName = budgets.data?.map((budget: PropsVehicle) => {
+      return {
+        ...budget, // Mantém todas as propriedades existentes do objeto vehicle
+        clientName: budget.client.name, // Define a nova propriedade clientName com o valor de client.name
+      };
+    });
+
+    return budgetsWithClientName;
   };
 
   const { data: clients = [] } = useQuery<PropsClient[], Error>({

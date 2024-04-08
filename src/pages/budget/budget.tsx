@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -27,12 +26,13 @@ import { PropsBudget, columns } from "./columns";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import ReactDOMServer from "react-dom/server";
+import { useState } from "react";
 
 interface IFormInput {
   name: string;
   clientId: string;
   vehicleId: string;
-  price: string;
+  value: string;
   brand: string;
   code: string;
   totalProduct: string;
@@ -56,6 +56,7 @@ interface BudgetObject {
   totalProduct: number;
   totalService: number;
   clientId: number;
+  client: string;
   vehicleId: number;
   budgetItems: BudgetItem[];
   validate: string;
@@ -303,6 +304,8 @@ export function Budget() {
       onClose();
     }
   };
+
+  console.log(budgets)
 
   return (
     <div className="p-4 space-y-4">

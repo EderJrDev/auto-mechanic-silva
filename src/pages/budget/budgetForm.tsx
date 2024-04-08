@@ -21,7 +21,7 @@ interface IFormInput {
   name: string;
   clientId: string;
   vehicleId: string;
-  price: string;
+  value: string;
   brand: string;
   code: string;
   totalService: string;

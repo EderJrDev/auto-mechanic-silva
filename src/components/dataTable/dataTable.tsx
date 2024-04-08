@@ -30,7 +30,7 @@ export function DataTable<TData, TItem extends Record<string, any>>({
       <Table variant="striped" colorScheme="blackAlpha">
         <Thead>
           <Tr>
-            {columns.map((column, index) => (
+            {columns?.map((column, index) => (
               <Th key={index}>{column.header}</Th>
             ))}
             {columns.some((column) => column.isButton) && <Th>Download</Th>}
@@ -46,7 +46,7 @@ export function DataTable<TData, TItem extends Record<string, any>>({
               ))}
               {columns?.some((column) => column.isButton) && (
                 <Td className="items-center">
-                  {columns.map((column, colIndex) =>
+                  {columns?.map((column, colIndex) =>
                     column.isButton ? (
                       <Button
                         colorScheme="teal"

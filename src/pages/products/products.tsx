@@ -23,7 +23,7 @@ import { PropsProduct, columns } from "./columns";
 
 interface IFormInput {
   name: string;
-  price: string;
+  value: number;
   brand: string;
   code: string;
 }
@@ -32,6 +32,8 @@ export function Products() {
   const { products } = useFetch();
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  console.log(products)
 
   const queryClient = useQueryClient();
 
@@ -60,7 +62,11 @@ export function Products() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
 
+    data.value = parseInt(data.value)
+
     const response = await sendProductFn(data);
+
+    console.log(response.data);
 
     if (response.status === 201) {
       toast.success("Produto adicionado com sucesso!");
@@ -69,6 +75,8 @@ export function Products() {
       toast.error("Falha ao cadastrar produto.");
     }
   };
+
+  console.log(products);
 
   return (
     <div className="p-4 space-y-4">

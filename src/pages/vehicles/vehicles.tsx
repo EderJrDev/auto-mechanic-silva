@@ -44,15 +44,27 @@ export function Vehicles() {
       data: obj,
     });
 
+  console.log(vehicles);
+
   const { mutateAsync: sendVehiclesFn } = useMutation({
     mutationFn: sendService,
-    onSuccess(response) {
-      queryClient.setQueryData<PropsVehicle[]>(["vehicles"], (data) => {
-        if (Array.isArray(data)) {
-          return [...data, response.data];
-        }
-        return [response.data];
-      });
+    onSuccess: async (response) => {
+      try {
+        const getClient = await fetchData({
+          url: `client/${response.data.clientId}`,
+          method: "get",
+        });
+
+        await queryClient.setQueryData<PropsVehicle[]>(["vehicles"], (data) => {
+          if (Array.isArray(data)) {
+            response.data.clientName = getClient.data.name;
+            return [...data, response.data];
+          }
+          return [response.data];
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     onError(error) {
       console.log(error);
@@ -82,15 +94,6 @@ export function Vehicles() {
     }
   };
 
-  console.log(vehicles);
-
-  const vehiclesWithClientName = vehicles.map((vehicle) => {
-    return {
-      ...vehicle, // Mantém todas as propriedades existentes do objeto vehicle
-      clientName: vehicle.client.name, // Define a nova propriedade clientName com o valor de client.name
-    };
-  });
-
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
@@ -116,7 +119,7 @@ export function Vehicles() {
         </Modal>
       </div>
       {/* table */}
-      <DataTable columns={columns} data={vehiclesWithClientName} />
+      <DataTable columns={columns} data={vehicles} />
       {/* table */}
     </div>
   );

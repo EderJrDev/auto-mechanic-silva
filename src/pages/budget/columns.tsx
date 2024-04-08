@@ -1,8 +1,9 @@
+import { PropsClient } from "../clients/columns";
 import { PropsService } from "../services/colums";
 
 interface ColumnDef<TData> {
   header?: string;
-  accessor?: keyof TData; // Torna a propriedade opcional
+  accessor?: keyof TData | string;
   isButton?: boolean;
 }
 
@@ -18,9 +19,11 @@ interface BudgetItem {
 
 export interface PropsBudget {
   id: string;
-  clientId: string;
   totalValue: number;
   budgetItems: BudgetItem[];
+  client: PropsClient;
+  clientId: number;
+  clientName: string;
 }
 
 export const columns: ColumnDef<PropsBudget>[] = [
@@ -33,7 +36,7 @@ export const columns: ColumnDef<PropsBudget>[] = [
     header: "Valor total",
   },
   {
-    accessor: "clientId",
+    accessor: "clientName",
     header: "Cliente",
   },
   {

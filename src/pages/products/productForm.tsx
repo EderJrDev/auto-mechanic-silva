@@ -6,7 +6,7 @@ import { Button, Input, ModalFooter, Textarea } from "@chakra-ui/react";
 
 interface IFormInput {
   name: string;
-  price: string;
+  value: number;
   brand: string;
   code: string;
 }
@@ -49,7 +49,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       <div className="items-center text-start gap-2 w-auto">
         <Label label="Valor R$" />
         <Input
-          {...register("price")}
+          {...register("value")}
           className="col-span-3"
           placeholder="Valor"
           type="number"
