@@ -49,7 +49,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({
           className="col-span-3"
           placeholder="Documento"
           required
-          type="text"
+          type="number"
           maxLength={20}
         />
       </div>
