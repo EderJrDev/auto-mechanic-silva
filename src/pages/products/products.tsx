@@ -23,7 +23,7 @@ import { PropsProduct, columns } from "./columns";
 
 interface IFormInput {
   name: string;
-  value: number;
+  value: any;
   brand: string;
   code: string;
 }
@@ -33,7 +33,7 @@ export function Products() {
   const { loading, fetchData } = useAxios();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(products)
+  console.log(products);
 
   const queryClient = useQueryClient();
 
@@ -60,9 +60,8 @@ export function Products() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-
-    data.value = parseInt(data.value)
+    // Verifica o tipo de data.value
+    data.value = parseInt(data.value);
 
     const response = await sendProductFn(data);
 
@@ -75,8 +74,6 @@ export function Products() {
       toast.error("Falha ao cadastrar produto.");
     }
   };
-
-  console.log(products);
 
   return (
     <div className="p-4 space-y-4">

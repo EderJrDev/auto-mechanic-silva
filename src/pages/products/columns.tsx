@@ -6,7 +6,7 @@ interface ColumnDef<TData> {
 export type PropsProduct = {
   id: string;
   name: string;
-  price: string;
+  price: number;
   brand: string;
   code: string;
 };

@@ -81,13 +81,23 @@ export function Budget() {
 
   const { mutateAsync: sendBudgetFn } = useMutation({
     mutationFn: sendBudget,
-    onSuccess(response) {
-      queryClient.setQueryData<PropsBudget[]>(["budgets"], (data) => {
-        if (Array.isArray(data)) {
-          return [...data, response.data];
-        }
-        return [response.data];
-      });
+    onSuccess: async (response) => {
+      try {
+        const getClient = await fetchData({
+          url: `client/${response.data.clientId}`,
+          method: "get",
+        });
+
+        await queryClient.setQueryData<PropsBudget[]>(["budgets"], (data) => {
+          if (Array.isArray(data)) {
+            response.data.clientName = getClient.data.name;
+            return [...data, response.data];
+          }
+          return [response.data];
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     onError(error) {
       console.log(error);
@@ -304,8 +314,6 @@ export function Budget() {
       onClose();
     }
   };
-
-  console.log(budgets)
 
   return (
     <div className="p-4 space-y-4">

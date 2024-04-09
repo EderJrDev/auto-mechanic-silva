@@ -44,8 +44,6 @@ export function Vehicles() {
       data: obj,
     });
 
-  console.log(vehicles);
-
   const { mutateAsync: sendVehiclesFn } = useMutation({
     mutationFn: sendService,
     onSuccess: async (response) => {
