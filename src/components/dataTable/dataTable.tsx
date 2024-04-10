@@ -1,6 +1,7 @@
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
 import { Download } from "phosphor-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import ReactPaginate from "react-paginate";
 
 interface ColumnDef<TData> {
   header?: string;
@@ -19,6 +20,20 @@ export function DataTable<TData, TItem extends Record<string, any>>({
   data,
   onButtonClick,
 }: DataTableProps<TData, TItem>) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10; // Defina o número de itens por página aqui
+
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+  };
+
+  const paginatedData = data?.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  const pageCount = Math.ceil((data?.length || 1) / itemsPerPage);
+
   const handleButtonClick = (id: number) => {
     if (onButtonClick) {
       onButtonClick(id);
@@ -26,7 +41,7 @@ export function DataTable<TData, TItem extends Record<string, any>>({
   };
 
   return (
-    <Box overflowX="auto">
+    <Box>
       <Table variant="striped" colorScheme="blackAlpha">
         <Thead>
           <Tr>
@@ -37,7 +52,7 @@ export function DataTable<TData, TItem extends Record<string, any>>({
           </Tr>
         </Thead>
         <Tbody>
-          {data?.map((item, rowIndex) => (
+          {paginatedData?.map((item, rowIndex) => (
             <Tr key={rowIndex}>
               {columns?.map((column, colIndex) => (
                 <Td key={colIndex}>
@@ -73,6 +88,24 @@ export function DataTable<TData, TItem extends Record<string, any>>({
           ))}
         </Tbody>
       </Table>
+      <ReactPaginate
+        previousLabel={"Anterior"}
+        nextLabel={"Próxima"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        className="mt-3 flex justify-center"
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination flex justify-center"}
+        activeClassName={"active"}
+        previousLinkClassName={"px-3 py-1 border rounded-full border-gray-300"}
+        nextLinkClassName={"px-3 py-1 border rounded-full border-gray-300"}
+        breakLinkClassName={"px-3 py-1 border rounded-full border-gray-300"}
+        pageLinkClassName={"px-3 py-1 border rounded-full border-gray-300"}
+        previousClassName={"mx-2"}
+        nextClassName={"mx-2"}
+      />
     </Box>
   );
 }

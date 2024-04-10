@@ -56,7 +56,7 @@ interface BudgetObject {
   totalProduct: number;
   totalService: number;
   clientId: number;
-  client: string;
+  client?: string;
   vehicleId: number;
   budgetItems: BudgetItem[];
   validate: string;
