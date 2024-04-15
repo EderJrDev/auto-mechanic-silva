@@ -66,6 +66,21 @@
   }
 }
 
+/* CSS Scroll Bars */
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
 @layer base {
   * {
     @apply border-border;
