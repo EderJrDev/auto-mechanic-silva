@@ -41,7 +41,7 @@ export function DataTable<TData, TItem extends Record<string, any>>({
   };
 
   return (
-    <Box>
+   <Box overflowX="auto">
       <Table variant="striped" colorScheme="blackAlpha">
         <Thead>
           <Tr>

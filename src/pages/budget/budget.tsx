@@ -122,6 +122,7 @@ export function Budget() {
       totalService: parseInt(data.totalService),
       clientId: parseInt(data.clientId),
       vehicleId: parseInt(data.vehicleId),
+      client: data.clientId,
       budgetItems: budgetItems,
       validate: data.validate,
     };
