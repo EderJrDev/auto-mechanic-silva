@@ -13,3 +13,30 @@
 
 
 ## 🚀 Aplicação em produção: https://auto-mechanic-silva.vercel.app/
+
+<img
+  src="/src/assets/mokup-4.png"
+  alt="layout"
+  title="Layout"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
+
+<img
+  src="/src/assets/mokup-1 (1).png"
+  alt="layout"
+  title="Layout"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
+
+<img
+  src="/src/assets/mokup-2.png"
+  alt="layout"
+  title="Layout"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
+
+<img
+  src="/src/assets/mokup-3.png"
+  alt="layout"
+  title="Layout"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
+
+
+
